@@ -70,7 +70,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
                     : GestureDetector(
                         onTap: () {
                           _controler.nextPage(
-                            duration: const Duration(milliseconds: 500),
+                            duration: const Duration(milliseconds: 300),
                             curve: Curves.easeIn,
                           );
                         },

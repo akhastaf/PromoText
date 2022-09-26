@@ -44,8 +44,6 @@ class HomePage extends StatelessWidget {
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8.0),
-
-                      // borderSide: BorderSide.lerp(a, b, t),
                     ),
                     hintText: 'eg: test',
                     suffixIcon: IconButton(
@@ -53,10 +51,38 @@ class HomePage extends StatelessWidget {
                       onPressed: () {},
                     )),
               ),
-            )
+            ),
+            ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: 10,
+                itemBuilder: (context, index) {
+                  // return ListView.builder(
+                  //   scrollDirection: Axis.horizontal,
+                  //   itemCount: 10,
+                  //   itemBuilder: (context, index) {
+                      return Container();
+                  //   },
+                  // );
+                },
+              ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class ListItem extends StatelessWidget {
+  const ListItem({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.amber,
+      margin: EdgeInsets.all(8.0),
+      child: Center(child: Text('Test')),
     );
   }
 }
