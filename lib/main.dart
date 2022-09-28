@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:promo_app/pages/main_page_customer.dart';
+import 'package:promo_app/pages/main_page_store.dart';
 import 'package:promo_app/pages/onboard_screen-page.dart';
 
 void main() {
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const OnboardScreen(),
+      home: const MainPageStore(),
     );
   }
 }

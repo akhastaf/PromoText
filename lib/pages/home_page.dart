@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:promo_app/components/app_bar.dart';
+import 'list_item.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -8,27 +10,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.menu,
-            size: 36,
-            color: Colors.grey,
-          ),
-          onPressed: () {},
-        ),
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.account_circle,
-                size: 36,
-                color: Colors.grey,
-              ))
-        ],
-      ),
+      appBar: const MyAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -52,37 +34,18 @@ class HomePage extends StatelessWidget {
                     )),
               ),
             ),
-            ListView.builder(
+            Flexible(
+              child: ListView.builder(
                 scrollDirection: Axis.vertical,
                 itemCount: 10,
                 itemBuilder: (context, index) {
-                  // return ListView.builder(
-                  //   scrollDirection: Axis.horizontal,
-                  //   itemCount: 10,
-                  //   itemBuilder: (context, index) {
-                      return Container();
-                  //   },
-                  // );
+                  return ListItem(index: index);
                 },
               ),
+            ),
           ],
         ),
       ),
-    );
-  }
-}
-
-class ListItem extends StatelessWidget {
-  const ListItem({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.amber,
-      margin: EdgeInsets.all(8.0),
-      child: Center(child: Text('Test')),
     );
   }
 }
