@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:get/route_manager.dart';
+import 'package:promo_app/pages/login_page.dart';
+import 'package:promo_app/pages/main_page.dart';
 import 'package:promo_app/pages/main_page_customer.dart';
 import 'package:promo_app/pages/main_page_store.dart';
 import 'package:promo_app/pages/onboard_screen-page.dart';
@@ -13,7 +17,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -28,7 +32,15 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MainPageStore(),
+      //home: const MainPageStore(),
+      initialRoute: '/mainCustomer',
+      getPages: [
+        GetPage(name: '/mainStore', page: () => const MainPageStore()),
+        GetPage(name: '/mainCustomer', page: () => const MainPageCustomer()),
+        GetPage(name: '/login', page: () => const LoginPage()),
+        GetPage(name: '/intro', page: () => const OnboardScreen()),
+        GetPage(name: '/', page: () => const MainPage()),
+      ],
     );
   }
 }

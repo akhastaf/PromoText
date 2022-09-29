@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:promo_app/pages/home_page.dart';
+import 'package:get/get.dart';
 import 'package:promo_app/pages/main_page_store.dart';
 import 'package:promo_app/pages/intro_screens/intro_screen1.dart';
 import 'package:promo_app/pages/intro_screens/intro_screen2.dart';
@@ -61,11 +61,7 @@ class _OnboardScreenState extends State<OnboardScreen> {
                     ? GestureDetector(
                         onTap: () {
                           // here will be the router to push to the home page
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const MainPageStore(),
-                            ),
-                          );
+                          Get.toNamed('/login');
                         },
                         child: const Text('Done'))
                     : GestureDetector(
