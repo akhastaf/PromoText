@@ -5,19 +5,21 @@ import 'package:cookie_jar/cookie_jar.dart';
 
 class Api {
   Dio dio =
-      Dio(BaseOptions(baseUrl: 'https://e4d8-197-230-240-146.eu.ngrok.io'));
-  CookieJar cookieJar = PersistCookieJar();
-  String? accessToken = '';
+      Dio(BaseOptions(baseUrl: 'https://e08b-197-230-240-146.eu.ngrok.io'));
+  //CookieJar cookieJar = PersistCookieJar();
+  String? accessToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hbmFnZXIxQG1hbmFnZXIuY29tIiwic3ViIjo1LCJpYXQiOjE2NjQ1NzE2NjksImV4cCI6MTY2NDY1ODA2OX0.9BON_kdFzdkKnx36xkKpP5V7Ls6jmUei2iiqAgqwhz4';
 
   final _storage = const FlutterSecureStorage();
 
   // Dio get api () => api;
 
   Api() {
-    dio.interceptors.add(CookieManager(cookieJar));
+    //dio.interceptors.add(CookieManager(cookieJar));
     dio.interceptors
         .add(InterceptorsWrapper(onRequest: (optins, handler) async {
       optins.headers['Autorization'] = 'Bearer $accessToken';
+      print(optins.headers['Athorization']);
       return handler.next(optins);
     }, onError: (DioError error, handler) async {
       if (error.response?.statusCode == 401 &&
@@ -47,7 +49,7 @@ class Api {
       accessToken = response.data;
     } else {
       accessToken = null;
-      cookieJar.deleteAll();
+      //cookieJar.deleteAll();
     }
   }
 }

@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       //home: const MainPageStore(),
-      initialRoute: '/',
+      initialRoute: '/mainStore',
       getPages: [
         GetPage(name: '/mainStore', page: () => const MainPageStore()),
         GetPage(name: '/mainCustomer', page: () => const MainPageCustomer()),

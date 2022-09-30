@@ -4,6 +4,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:promo_app/components/app_button.dart';
 import 'package:promo_app/models/promotions_list_model.dart';
 
+import '../models/promotion_model.dart';
+
 class PromotionItemList extends StatelessWidget {
   final Promotion promotion;
   const PromotionItemList({super.key, required this.promotion});
