@@ -9,19 +9,14 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+
+  @override
+  void initState() {
+    
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Home;
   }
 }
-
-
-/*
-m:
-  /owner
-    / 
-    /
-    /
-  /cust
-
-*/

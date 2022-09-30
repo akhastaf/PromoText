@@ -3,7 +3,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:promo_app/components/app_button.dart';
 
-import '../components/my_tab_bar.dart';
+import '../../components/my_tab_bar.dart';
 
 class HomePageStore extends StatelessWidget {
   const HomePageStore({super.key});

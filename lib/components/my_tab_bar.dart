@@ -3,6 +3,8 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:promo_app/components/promotions_list.dart';
 
+import 'customers_list.dart';
+
 class MyTabBar extends StatefulWidget {
   const MyTabBar({super.key});
 
@@ -43,13 +45,12 @@ class _MyTabBarState extends State<MyTabBar> with TickerProviderStateMixin {
         ),
         Container(
           width: double.maxFinite,
-          height: 500,
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          //height: 500,
           child: TabBarView(
             controller: _tabController,
-            children: const [
+            children: [
               PromotionsList(),
-              Text('All Customers will be displayed here'),
+              const CustomersList(),
             ],
           ),
         )

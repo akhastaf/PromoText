@@ -4,16 +4,18 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 
 class Api {
-  Dio api =
+  Dio dio =
       Dio(BaseOptions(baseUrl: 'https://e4d8-197-230-240-146.eu.ngrok.io'));
   CookieJar cookieJar = PersistCookieJar();
-  String? accessToken;
+  String? accessToken = '';
 
   final _storage = const FlutterSecureStorage();
 
+  // Dio get api () => api;
+
   Api() {
-    api.interceptors.add(CookieManager(cookieJar));
-    api.interceptors
+    dio.interceptors.add(CookieManager(cookieJar));
+    dio.interceptors
         .add(InterceptorsWrapper(onRequest: (optins, handler) async {
       optins.headers['Autorization'] = 'Bearer $accessToken';
       return handler.next(optins);
@@ -34,13 +36,13 @@ class Api {
       method: requestOptions.method,
       headers: requestOptions.headers,
     );
-    return api.request<dynamic>(requestOptions.path,
+    return dio.request<dynamic>(requestOptions.path,
         queryParameters: requestOptions.queryParameters, options: options);
   }
 
   Future<void> refreshToken() async {
     final refreshToken = await _storage.read(key: 'refreshToken');
-    final response = await api.get('/auth/refresh_token');
+    final response = await dio.get('/auth/refresh_token');
     if (response.statusCode == 200) {
       accessToken = response.data;
     } else {

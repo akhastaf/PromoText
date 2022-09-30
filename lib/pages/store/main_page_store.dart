@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:promo_app/components/app_bar.dart';
-import 'package:promo_app/pages/home_page_store.dart';
+import 'package:promo_app/pages/store/home_page_store.dart';
 import 'package:promo_app/pages/profile_page.dart';
 
 class MainPageStore extends StatefulWidget {

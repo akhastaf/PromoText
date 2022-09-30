@@ -3,9 +3,9 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get/route_manager.dart';
 import 'package:promo_app/pages/login_page.dart';
 import 'package:promo_app/pages/main_page.dart';
-import 'package:promo_app/pages/main_page_customer.dart';
-import 'package:promo_app/pages/main_page_store.dart';
-import 'package:promo_app/pages/onboard_screen-page.dart';
+import 'package:promo_app/pages/customer/main_page_customer.dart';
+import 'package:promo_app/pages/store/main_page_store.dart';
+import 'package:promo_app/pages/intro_screens/onboard_screen-page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       //home: const MainPageStore(),
-      initialRoute: '/mainCustomer',
+      initialRoute: '/',
       getPages: [
         GetPage(name: '/mainStore', page: () => const MainPageStore()),
         GetPage(name: '/mainCustomer', page: () => const MainPageCustomer()),

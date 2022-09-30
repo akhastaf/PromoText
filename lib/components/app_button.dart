@@ -17,7 +17,7 @@ class AppButton extends StatelessWidget {
   final BorderRadius raduis;
   double width;
   double height;
-  void Function()? onPress =() {};
+  void Function()? onPress = () {};
 
   AppButton(
       {super.key,
@@ -48,7 +48,8 @@ class AppButton extends StatelessWidget {
           color: backgroundColor,
         ),
         child: Center(
-          child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
             if (haveIcon)
               Icon(
                 icon,
