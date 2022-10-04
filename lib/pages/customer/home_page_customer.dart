@@ -41,7 +41,7 @@ class HomePageCustomer extends StatelessWidget {
             () => Flexible(
               child: ListView.builder(
                 scrollDirection: Axis.vertical,
-                itemCount: storeController.storeList.value.items?.length ?? 0,
+                itemCount: storeController.storeList.value.items?.length,
                 itemBuilder: (context, index) {
                   return ListItem(store: storeController.storeList.value.items![index]);
                 },

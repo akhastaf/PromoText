@@ -22,7 +22,7 @@ class Api extends GetxService {
 
   Future<Api> init() async {
     // Init Dio
-    _dio = Dio(BaseOptions(baseUrl: 'https://98b9-105-67-7-105.eu.ngrok.io'));
+    _dio = Dio(BaseOptions(baseUrl: 'https://43df-41-143-41-55.eu.ngrok.io'));
     // Setup cookies
     String appDoc = await getDocPath();
     _cookieJar = PersistCookieJar(storage: FileStorage('${appDoc}/.cookies'));
