@@ -45,12 +45,12 @@ class _MyTabBarState extends State<MyTabBar> with TickerProviderStateMixin {
         ),
         Container(
           width: double.maxFinite,
-          height: 500,
+          height: 350,
           child: TabBarView(
             controller: _tabController,
             children: [
               PromotionsList(),
-              const CustomersList(),
+              CustomersList(),
             ],
           ),
         )

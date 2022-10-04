@@ -7,15 +7,6 @@ import 'package:promo_app/components/promotion_item_list.dart';
 import '../controller/promotions_controller.dart';
 import '../models/promotion_model.dart';
 
-// class PromotionsList extends StatelessWidget {
-//   const PromotionsList({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     PromotionsController promotionsController = Get.put(PromotionsController());
-
-//   }
-// }
 
 class PromotionsList extends StatefulWidget {
   const PromotionsList({super.key});
@@ -33,13 +24,16 @@ class _PromotionsListState extends State<PromotionsList> {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      child: ListView.builder(
-        itemCount: promotionsController.promotionsList.items?.length,
-        itemBuilder: (context, index) {
-          return PromotionItemList(
-              promotion: promotionsController.promotionsList.items![index]);
-        },
+    return Obx(
+      () => Flexible(
+        child: ListView.builder(
+          itemCount: promotionsController.promotionList.value.items?.length,
+          itemBuilder: (context, index) {
+            return PromotionItemList(
+                promotion:
+                    promotionsController.promotionList.value.items![index]);
+          },
+        ),
       ),
     );
   }

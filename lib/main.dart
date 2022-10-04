@@ -1,14 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get/route_manager.dart';
+import 'package:promo_app/controller/user_controller.dart';
 import 'package:promo_app/pages/login_page.dart';
 import 'package:promo_app/pages/main_page.dart';
 import 'package:promo_app/pages/customer/main_page_customer.dart';
+import 'package:promo_app/pages/splash_page.dart';
 import 'package:promo_app/pages/store/main_page_store.dart';
 import 'package:promo_app/pages/intro_screens/onboard_screen-page.dart';
+import 'package:promo_app/pages/store/promotion_create.dart';
+import 'package:promo_app/services/storage.dart';
 
-void main() {
+import 'services/api.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await initService();
   runApp(const MyApp());
+}
+
+Future<void> initService() async {
+  debugPrint('starting service ...');
+  await Get.putAsync(() => StorageSecure().init());
+  await Get.putAsync(() => Api().init());
+  await Get.put(
+    () => UserController(),
+  );
+  debugPrint('service started');
 }
 
 class MyApp extends StatelessWidget {
@@ -33,13 +52,15 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       //home: const MainPageStore(),
-      initialRoute: '/mainStore',
+      initialRoute: '/splash',
       getPages: [
         GetPage(name: '/mainStore', page: () => const MainPageStore()),
         GetPage(name: '/mainCustomer', page: () => const MainPageCustomer()),
         GetPage(name: '/login', page: () => const LoginPage()),
         GetPage(name: '/intro', page: () => const OnboardScreen()),
+        GetPage(name: '/splash', page: () => const SplashPage()),
         GetPage(name: '/', page: () => const MainPage()),
+        GetPage(name: '/promotionCreate', page: () => PromotionCreate()),
       ],
     );
   }

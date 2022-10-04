@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 import 'package:promo_app/components/app_button.dart';
 
 import '../../components/my_tab_bar.dart';
 
 class HomePageStore extends StatelessWidget {
   const HomePageStore({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,7 @@ class HomePageStore extends StatelessWidget {
                 icon: Icons.add,
                 iconColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 14),
+                onPress: () => Get.toNamed('/promotionCreate'),
               )
             ]
           ),

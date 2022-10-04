@@ -9,12 +9,12 @@ import 'package:promo_app/models/user.model.dart';
 import 'meta_model.dart';
 import 'promotion_model.dart';
 
-PromotionsList promotionsListFromJson(String str) => PromotionsList.fromJson(json.decode(str));
+PromotionList promotionsListFromJson(String str) => PromotionList.fromJson(json.decode(str));
 
 // String promotionsListToJson(PromotionsList data) => json.encode(data.toJson());
 
-class PromotionsList {
-    PromotionsList({
+class PromotionList {
+    PromotionList({
         this.items = const <Promotion>[],
         this.meta
     });
@@ -22,7 +22,7 @@ class PromotionsList {
     List<Promotion>? items;
     Meta? meta;
 
-    factory PromotionsList.fromJson(Map<String, dynamic> json) => PromotionsList(
+    factory PromotionList.fromJson(Map<String, dynamic> json) => PromotionList(
         items: List<Promotion>.from(json["items"].map((x) => Promotion.fromJson(x))),
         meta: Meta.fromJson(json["meta"]),
     );

@@ -1,24 +1,32 @@
 import 'package:get/get.dart';
-import 'package:promo_app/models/promotions_list_model.dart';
+import 'package:promo_app/models/promotion_list_model.dart';
 import 'package:promo_app/services/api.dart';
 
 class PromotionsController extends GetxController {
-  Api api = Api();
+  Api api = Get.find<Api>();
   int page = 1;
   int limit = 10;
-  PromotionsList promotionsList = PromotionsList();
+  Rx<PromotionList> promotionList = PromotionList().obs;
+  Rx<bool> isLoading = (false).obs;
   @override
   void onInit() async {
-    final res = await api.dio.get('/promotions?page=$page&limit=$limit');
-    if (res.statusCode == 200) {
-      promotionsList = PromotionsList.fromJson(res.data);
-    }
+    getPromotions();
     super.onInit();
   }
 
   // final res = await api.dio('/promotions?page=$page&limit=$limit');
 
-  // void getPromotions() async {
-  //   update();
-  // }
+  void getPromotions() async {
+    try {
+      isLoading.value = true;
+      final res =
+          await api.DioClient.get('/promotions?page=$page&limit=$limit');
+      if (res.statusCode == 200) {
+        promotionList.value = PromotionList.fromJson(res.data);
+      }
+      isLoading.value = false;
+    } catch (error) {
+      Get.snackbar('error', error.toString());
+    }
+  }
 }

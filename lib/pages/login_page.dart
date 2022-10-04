@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:promo_app/components/app_button.dart';
 import 'package:promo_app/components/app_text_filed.dart';
@@ -14,19 +15,15 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  bool isShow = false;
-  final UserController userController = Get.put(UserController() );
+  //final _storage = FlutterSecureStorage();
+
+  bool isShow = true;
+  final UserController userController = Get.put(UserController());
 
   void _showPassword() {
     setState(() {
       isShow = !isShow;
     });
-  }
-
-  void _login() {
-    print('login will call here');
   }
 
   @override
@@ -58,9 +55,8 @@ class _LoginPageState extends State<LoginPage> {
                     height: 25,
                   ),
                   AppTextFiled(
-                    controller: _emailController,
+                    controller: userController.emailController,
                     textLabel: 'Email',
-                    obsecure: true,
                     styleLabel: const TextStyle(
                         fontWeight: FontWeight.w400, color: Colors.grey),
                     border: OutlineInputBorder(
@@ -70,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                     height: 25,
                   ),
                   AppTextFiled(
-                    controller: _passwordController,
+                    controller: userController.passwordController,
                     textLabel: 'Password',
                     obsecure: isShow,
                     styleLabel: const TextStyle(
@@ -98,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                     padding:
                         const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                     raduis: BorderRadius.circular(15),
-                    onPress: _login,
+                    onPress: userController.login,
                   ),
                 ],
               ),

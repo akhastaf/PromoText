@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:promo_app/components/app_button.dart';
-import 'package:promo_app/models/promotions_list_model.dart';
-
+import 'package:promo_app/models/promotion_list_model.dart';
+import 'package:date_format/date_format.dart';
 import '../models/promotion_model.dart';
 
 class PromotionItemList extends StatelessWidget {
@@ -21,12 +21,27 @@ class PromotionItemList extends StatelessWidget {
       title: Text(
         promotion.title,
           style: const TextStyle(
-          fontSize: 16,
+          fontSize: 18,
           fontWeight: FontWeight.w500,
           color: Colors.black,
         ),
       ),
-      subtitle: Text(promotion.createdAt.toString()),
+      subtitle: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            promotion.description,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: Colors.grey,
+            ),
+        ),
+          const SizedBox(height: 2,),
+          Text(formatDate(promotion.createdAt, [ yyyy, '-', mm, '-', dd, ' ', HH, ':', mm,])),
+        ]
+      ),
       trailing: const Icon(Icons.more_vert),
       dense: true,
     );

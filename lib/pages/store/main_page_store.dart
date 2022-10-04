@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:get/get.dart';
 import 'package:promo_app/components/app_bar.dart';
+import 'package:promo_app/pages/splash_page.dart';
 import 'package:promo_app/pages/store/home_page_store.dart';
 import 'package:promo_app/pages/profile_page.dart';
 
@@ -23,6 +25,11 @@ class _MainPageStoreState extends State<MainPageStore> {
       currentIndex = index;
     });
   }
+  @override
+  void initState() {
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
