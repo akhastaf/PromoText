@@ -11,8 +11,11 @@ class UserController extends GetxController {
   Api api = Get.find<Api>();
   StorageSecure storageSecure = Get.find<StorageSecure>();
   Rx<Login> user = Login().obs;
+  final nameController = TextEditingController();
   final emailController = TextEditingController();
+  final phoneController = TextEditingController();
   final passwordController = TextEditingController();
+  final passwordConfirmationController = TextEditingController();
 
   void login() async {
     final data = {
@@ -44,6 +47,25 @@ class UserController extends GetxController {
         }
         storageSecure.storage.delete(key: 'user');
         Get.toNamed('/login');
+      }
+    } catch (error) {
+      Get.snackbar('Error', error.toString());
+    }
+  }
+
+  void signup() async {
+    try {
+      final data = {
+        "name": nameController.text,
+        "email": emailController.text,
+        "phone": phoneController.text,
+        "password": passwordController.text,
+        "password_confirmation": passwordConfirmationController.text
+      };
+      final res = await api.DioClient.post('/auth/register', data: data);
+      if (res.statusCode == 201) {
+        Get.toNamed('/login');
+        Get.snackbar('success', 'check your email for confirmations');
       }
     } catch (error) {
       Get.snackbar('Error', error.toString());

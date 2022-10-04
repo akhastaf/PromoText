@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:promo_app/models/manager_model.dart';
 
 class ListItem extends StatelessWidget {
-  final int index;
-  const ListItem({super.key, required this.index});
+  final Manager store;
+  const ListItem({super.key, required this.store});
 
   @override
   Widget build(BuildContext context) {
@@ -11,13 +13,18 @@ class ListItem extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              'Store A',
+            Text(
+              store.name ?? '',
               style: TextStyle(fontSize: 20),
             ),
             IconButton(
               icon: const Icon(Icons.arrow_forward_rounded),
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed(
+                  '/storeDetails',
+                  arguments: store.id
+                );
+              },
             )
           ],
         ),
@@ -25,7 +32,7 @@ class ListItem extends StatelessWidget {
           height: 150,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: 10,
+            itemCount: store.promotions?.length ?? 0,
             padding: const EdgeInsets.only(right: 30),
             itemBuilder: (context, index) {
               return Container(
@@ -35,20 +42,20 @@ class ListItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Image(
-                      image: AssetImage('assets/images/test.png'),
+                    Image(
+                      image: NetworkImage(store.promotions![index].image),
                       width: 80,
                       height: 80,
                     ),
                     Text(
-                      'Title $index',
+                      store.promotions![index].title,
                       style: const TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16,
-                        color: Colors.black54
-                      ),),
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          color: Colors.black54),
+                    ),
                     Text(
-                      'Lorem ipsum for testing $index',
+                      store.promotions![index].description,
                       style: const TextStyle(
                         fontWeight: FontWeight.w200,
                         fontSize: 12,

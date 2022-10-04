@@ -31,8 +31,7 @@ class Api extends GetxService {
     _dio.interceptors
         .add(InterceptorsWrapper(onRequest: (optins, handler) async {
       optins.headers['Authorization'] =
-          'Bearer ${_accessToken}'; //await _storage.read(key: 'accessTokrn');
-      print(optins.headers);
+          'Bearer ${_accessToken}'; 
       return handler.next(optins);
     }, onError: (DioError error, handler) async {
       if (error.response?.statusCode == 401 &&

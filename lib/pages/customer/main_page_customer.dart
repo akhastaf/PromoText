@@ -20,7 +20,7 @@ class MainPageCustomer extends StatefulWidget {
 
 class _MainPageCustomerState extends State<MainPageCustomer> {
   List pages = [
-    const HomePageCustomer(),
+    HomePageCustomer(),
     const NotificationPage(),
     const StorePage(),
     const ProfilePage(),

@@ -96,6 +96,24 @@ class _LoginPageState extends State<LoginPage> {
                     raduis: BorderRadius.circular(15),
                     onPress: userController.login,
                   ),
+                  InkWell(
+                    onTap: () {
+                      Get.toNamed('/reset');
+                    },
+                    child: const Text(
+                      'password reset',
+                      style: TextStyle(color: Color(0xFF6C63FF)),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Get.toNamed('/signup');
+                    },
+                    child: const Text(
+                      'create an account',
+                      style: TextStyle(color: Color(0xFF6C63FF)),
+                    ),
+                  ),
                 ],
               ),
             ]),

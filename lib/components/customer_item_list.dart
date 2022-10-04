@@ -16,11 +16,11 @@ class CustomerItemList extends StatelessWidget {
         width: 70,
         height: 70,
         child: CircleAvatar(
-          backgroundImage: NetworkImage(customer.avatar ?? ''),
+          backgroundImage: NetworkImage(customer.avatar),
         ),
       ),
       title: Text(
-        customer.name?? '',
+        customer.name,
         style: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
@@ -28,7 +28,7 @@ class CustomerItemList extends StatelessWidget {
         ),
       ),
       subtitle: Text(
-        customer.phone ?? '',
+        customer.phone,
         style: const TextStyle(
           fontWeight: FontWeight.w600,
           color: Colors.grey,
@@ -36,7 +36,7 @@ class CustomerItemList extends StatelessWidget {
         ),
       ),
       trailing: Text(
-        timeago.format(customer.createdAt ?? DateTime.now()),
+        timeago.format(customer.createdAt),
         style: const TextStyle(
           fontWeight: FontWeight.w400,
           color: Colors.grey,

@@ -14,15 +14,14 @@ class CustomersList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
-    // return Obx( () => Flexible(
-    //     child: ListView.builder(
-    //       itemCount: customersController.customerList.value.items?.length,
-    //       itemBuilder: (context, index) {
-    //         return CustomerItemList(customer: customersController.customerList.value.items![index]);
-    //       },
-    //     ),
-    //   )
-    // );
+    return Obx( () => Flexible(
+        child: ListView.builder(
+          itemCount: customersController.customerList.value.items?.length,
+          itemBuilder: (context, index) {
+            return CustomerItemList(customer: customersController.customerList.value.items![index]);
+          },
+        ),
+      )
+    );
   }
 }

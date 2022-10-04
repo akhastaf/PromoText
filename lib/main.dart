@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get/route_manager.dart';
+import 'package:promo_app/controller/customers_controller.dart';
+import 'package:promo_app/controller/promotions_controller.dart';
+import 'package:promo_app/controller/store_controller.dart';
 import 'package:promo_app/controller/user_controller.dart';
 import 'package:promo_app/pages/login_page.dart';
 import 'package:promo_app/pages/main_page.dart';
@@ -24,8 +27,17 @@ Future<void> initService() async {
   debugPrint('starting service ...');
   await Get.putAsync(() => StorageSecure().init());
   await Get.putAsync(() => Api().init());
-  await Get.put(
+  Get.put(
     () => UserController(),
+  );
+  Get.put(
+    () => PromotionsController(),
+  );
+  Get.put(
+    () => CustomersController(),
+  );
+  Get.put(
+    () => StoreController(),
   );
   debugPrint('service started');
 }
