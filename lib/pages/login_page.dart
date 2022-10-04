@@ -70,7 +70,8 @@ class _LoginPageState extends State<LoginPage> {
                     textLabel: 'Password',
                     obsecure: isShow,
                     styleLabel: const TextStyle(
-                        fontWeight: FontWeight.w400, color: Colors.grey),
+                        fontWeight: FontWeight.w400, color: Colors.grey
+                    ),
                     suffixIcon: IconButton(
                       icon: isShow
                           ? const Icon(Icons.visibility_off)
@@ -81,8 +82,21 @@ class _LoginPageState extends State<LoginPage> {
                         borderRadius: BorderRadius.circular(15)),
                   ),
                   const SizedBox(
-                    height: 25,
+                    height: 10,
                   ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: InkWell(
+                      onTap: () {
+                        Get.toNamed('/reset');
+                      },
+                      child: const Text(
+                        'forget password ?',
+                        style: TextStyle(color: Color(0xFF6C63FF)),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10,),
                   AppButton(
                     width: 130,
                     height: 40,
@@ -96,24 +110,33 @@ class _LoginPageState extends State<LoginPage> {
                     raduis: BorderRadius.circular(15),
                     onPress: userController.login,
                   ),
-                  InkWell(
-                    onTap: () {
-                      Get.toNamed('/reset');
-                    },
-                    child: const Text(
-                      'password reset',
-                      style: TextStyle(color: Color(0xFF6C63FF)),
-                    ),
+                  const SizedBox(height: 10,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Don\'t have an account ? ',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w300,
+                          color: Colors.grey.shade500,
+                          fontSize: 14,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Get.toNamed('/signup');
+                        },
+                        child: const Text(
+                          'Create an account',
+                          style: TextStyle(
+                            color: Color(0xFF6C63FF),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ]
                   ),
-                  InkWell(
-                    onTap: () {
-                      Get.toNamed('/signup');
-                    },
-                    child: const Text(
-                      'create an account',
-                      style: TextStyle(color: Color(0xFF6C63FF)),
-                    ),
-                  ),
+                 
                 ],
               ),
             ]),

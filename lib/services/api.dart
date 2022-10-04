@@ -10,8 +10,7 @@ import 'package:path_provider/path_provider.dart';
 
 class Api extends GetxService {
   late Dio _dio;
-  String? _accessToken
-   =
+  String? _accessToken =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hbmFnZXIxQG1hbmFnZXIuY29tIiwic3ViIjo1LCJpYXQiOjE2NjQ4Nzc0NzEsImV4cCI6MTY2NDg3ODY3MX0.6kcXib0a4tYKsJjQSypj3DO4fjVbpcGBxwRGD0dt6Ew';
 
   late CookieJar _cookieJar;
@@ -22,7 +21,8 @@ class Api extends GetxService {
 
   Future<Api> init() async {
     // Init Dio
-    _dio = Dio(BaseOptions(baseUrl: 'https://43df-41-143-41-55.eu.ngrok.io'));
+    _dio =
+        Dio(BaseOptions(baseUrl: 'https://d3e8-197-230-240-146.eu.ngrok.io'));
     // Setup cookies
     String appDoc = await getDocPath();
     _cookieJar = PersistCookieJar(storage: FileStorage('${appDoc}/.cookies'));
@@ -30,14 +30,13 @@ class Api extends GetxService {
     // Setup the auth interceptors
     _dio.interceptors
         .add(InterceptorsWrapper(onRequest: (optins, handler) async {
-      optins.headers['Authorization'] =
-          'Bearer ${_accessToken}'; 
+      optins.headers['Authorization'] = 'Bearer ${_accessToken}';
       return handler.next(optins);
     }, onError: (DioError error, handler) async {
       if (error.response?.statusCode == 401 &&
           error.response?.data['message'] == 'Unauthorized') {
-          await refreshToken();
-          return handler.resolve(await _retry(error.requestOptions));
+        await refreshToken();
+        return handler.resolve(await _retry(error.requestOptions));
       }
       return handler.next(error);
     }));
@@ -54,13 +53,15 @@ class Api extends GetxService {
   }
 
   Future<void> refreshToken() async {
-    final response = await _dio.get('/auth/refresh_token');
-    if (response.statusCode == 200) {
-      _accessToken = response.data['access_token'];
-      // await _storage.write(
-      //     key: 'accessToken', value: response.data['access_token']);
-    } else {
-      await _cookieJar.deleteAll();
+    try {
+      final response = await _dio.get('/auth/refresh_token');
+      if (response.statusCode == 200) {
+        _accessToken = response.data['access_token'];
+      } else {
+        await _cookieJar.deleteAll();
+      }
+    } catch (error) {
+      print(error.toString());
     }
   }
 

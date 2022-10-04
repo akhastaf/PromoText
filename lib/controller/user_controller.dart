@@ -11,11 +11,13 @@ class UserController extends GetxController {
   Api api = Get.find<Api>();
   StorageSecure storageSecure = Get.find<StorageSecure>();
   Rx<Login> user = Login().obs;
+  Rx<String> err = ''.obs;
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
   final passwordController = TextEditingController();
   final passwordConfirmationController = TextEditingController();
+  final resetController = TextEditingController();
 
   void login() async {
     final data = {
@@ -50,6 +52,24 @@ class UserController extends GetxController {
       }
     } catch (error) {
       Get.snackbar('Error', error.toString());
+    }
+  }
+
+  void reset() async {
+    try {
+      final data = {
+        "email": resetController.text,
+      };
+      final res = await api.DioClient.post('/auth/forget', data: data);
+      if (res.statusCode == 201) {
+        err.value = res.data.toString();
+        Get.back();
+      } else if (res.statusCode == 400) {
+        Get.snackbar('Error', res.statusMessage.toString());
+      }
+    } catch (error) {
+      // err.value = error.toString();
+      // Get.snackbar('error', error.toString());
     }
   }
 

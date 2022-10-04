@@ -15,7 +15,7 @@ ManagerList managerListFromJson(String str) => ManagerList.fromJson(json.decode(
 
 class ManagerList {
     ManagerList({
-        this.items,
+        this.items = const <Manager>[],
         this.meta,
     });
 

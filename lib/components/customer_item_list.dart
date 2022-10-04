@@ -28,7 +28,7 @@ class CustomerItemList extends StatelessWidget {
         ),
       ),
       subtitle: Text(
-        customer.phone,
+        customer.phone ?? '',
         style: const TextStyle(
           fontWeight: FontWeight.w600,
           color: Colors.grey,

@@ -9,6 +9,8 @@ import 'package:promo_app/controller/user_controller.dart';
 import 'package:promo_app/pages/login_page.dart';
 import 'package:promo_app/pages/main_page.dart';
 import 'package:promo_app/pages/customer/main_page_customer.dart';
+import 'package:promo_app/pages/reset_page.dart';
+import 'package:promo_app/pages/signup_page.dart';
 import 'package:promo_app/pages/splash_page.dart';
 import 'package:promo_app/pages/store/main_page_store.dart';
 import 'package:promo_app/pages/intro_screens/onboard_screen-page.dart';
@@ -69,6 +71,8 @@ class MyApp extends StatelessWidget {
         GetPage(name: '/mainStore', page: () => const MainPageStore()),
         GetPage(name: '/mainCustomer', page: () => const MainPageCustomer()),
         GetPage(name: '/login', page: () => const LoginPage()),
+        GetPage(name: '/reset', page: () => ResetPage()),
+        GetPage(name: '/signup', page: () => SignupPage()),
         GetPage(name: '/intro', page: () => const OnboardScreen()),
         GetPage(name: '/splash', page: () => const SplashPage()),
         GetPage(name: '/', page: () => const MainPage()),

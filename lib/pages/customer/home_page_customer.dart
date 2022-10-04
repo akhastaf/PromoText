@@ -48,6 +48,7 @@ class HomePageCustomer extends StatelessWidget {
               ),
             ),
           ),
+          Obx(() => Text(storeController.err.value)),
         ],
       ),
     );
