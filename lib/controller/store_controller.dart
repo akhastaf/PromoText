@@ -11,20 +11,22 @@ class StoreController extends GetxController {
   int page = 1;
   int limit = 10;
   Rx<ManagerList> storeList = ManagerList().obs;
+  ScrollController scrollController = ScrollController();
   Rx<bool> isLoading = (false).obs;
+  Rx<bool> noMoreToLoad = (false).obs;
   Rx<String> err = ('').obs;
 
   @override
   void onInit() async {
     getStores();
+    scrollController.addListener(_loadMore);
     super.onInit();
   }
 
   void getStores() async {
     try {
       isLoading.value = true;
-      final res =
-          await api.DioClient.get('/users?page=$page&limit=$limit');
+      final res = await api.DioClient.get('/users?page=$page&limit=$limit');
       if (res.statusCode == 200) {
         storeList.value = ManagerList.fromJson(res.data);
         //err.value = res.data.toString();
@@ -32,7 +34,31 @@ class StoreController extends GetxController {
       isLoading.value = false;
     } catch (error) {
       err.value = error.toString();
+      print(error);
       Get.snackbar('error', error.toString());
+    }
+  }
+
+  _loadMore() async {
+    if (storeList.value.meta!.totalPages > page) {
+      page++;
+      try {
+        isLoading.value = true;
+        final res = await api.DioClient.get('/users?page=$page&limit=$limit');
+        if (res.statusCode == 200) {
+          final newStores = ManagerList.fromJson(res.data);
+          storeList.value.items?.addAll(newStores.items ?? []);
+          storeList.value.meta = newStores.meta;
+          //err.value = res.data.toString();
+        }
+        isLoading.value = false;
+      } catch (error) {
+        err.value = error.toString();
+        print(error);
+        Get.snackbar('error', error.toString());
+      }
+    } else {
+      noMoreToLoad.value = true;
     }
   }
 }

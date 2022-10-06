@@ -40,6 +40,7 @@ class HomePageCustomer extends StatelessWidget {
           Obx(
             () => Flexible(
               child: ListView.builder(
+                controller: storeController.scrollController,
                 scrollDirection: Axis.vertical,
                 itemCount: storeController.storeList.value.items?.length,
                 itemBuilder: (context, index) {

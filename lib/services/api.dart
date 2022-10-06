@@ -27,7 +27,7 @@ class Api extends GetxService {
   Future<Api> init() async {
     // Init Dio
     _dio =
-        Dio(BaseOptions(baseUrl: 'https://7558-197-230-240-146.eu.ngrok.io'));
+        Dio(BaseOptions(baseUrl: 'https://00e2-197-230-240-146.eu.ngrok.io'));
     // get access token
     _accessToken = await _secure.storage.read(key: 'access_token') ?? '';
     // Setup cookies
