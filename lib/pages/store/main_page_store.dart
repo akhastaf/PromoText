@@ -25,11 +25,12 @@ class _MainPageStoreState extends State<MainPageStore> {
       currentIndex = index;
     });
   }
+
   @override
   void initState() {
+    
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {

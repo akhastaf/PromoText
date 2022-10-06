@@ -10,6 +10,7 @@ class AppTextFiled extends StatelessWidget {
   OutlineInputBorder? border;
   IconButton? suffixIcon;
   int? maxLine;
+  String? Function(String?)? validation;
 
   AppTextFiled(
       {super.key,
@@ -19,12 +20,14 @@ class AppTextFiled extends StatelessWidget {
       required this.styleLabel,
       this.suffixIcon,
       this.border,
-      this.maxLine});
+      this.maxLine,
+      this.validation});
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: controller,
+      validator: validation,
       obscureText: obsecure ?? false,
       textAlign: TextAlign.start,
       maxLines: maxLine ?? 1,

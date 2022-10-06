@@ -24,7 +24,7 @@ class StoreController extends GetxController {
     try {
       isLoading.value = true;
       final res =
-          await api.DioClient.get('/promotions?page=$page&limit=$limit');
+          await api.DioClient.get('/users?page=$page&limit=$limit');
       if (res.statusCode == 200) {
         storeList.value = ManagerList.fromJson(res.data);
         //err.value = res.data.toString();

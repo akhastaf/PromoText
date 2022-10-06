@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:promo_app/components/app_button.dart';
 import 'package:promo_app/components/app_text_filed.dart';
 import 'package:promo_app/controller/user_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -19,11 +20,17 @@ class _LoginPageState extends State<LoginPage> {
 
   bool isShow = true;
   final UserController userController = Get.put(UserController());
+  final _formKey = GlobalKey<FormState>();
 
   void _showPassword() {
     setState(() {
       isShow = !isShow;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -38,82 +45,85 @@ class _LoginPageState extends State<LoginPage> {
               IconButton(
                   icon: const Icon(Icons.clear_rounded),
                   onPressed: () => Get.back()),
-              Column(
-                children: [
-                  const Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      'Login',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        AppLocalizations.of(context)!.login,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  AppTextFiled(
-                    controller: userController.emailController,
-                    textLabel: 'Email',
-                    styleLabel: const TextStyle(
-                        fontWeight: FontWeight.w400, color: Colors.grey),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15)),
-                  ),
-                  const SizedBox(
-                    height: 25,
-                  ),
-                  AppTextFiled(
-                    controller: userController.passwordController,
-                    textLabel: 'Password',
-                    obsecure: isShow,
-                    styleLabel: const TextStyle(
-                        fontWeight: FontWeight.w400, color: Colors.grey
+                    const SizedBox(
+                      height: 25,
                     ),
-                    suffixIcon: IconButton(
-                      icon: isShow
-                          ? const Icon(Icons.visibility_off)
-                          : const Icon(Icons.visibility),
-                      onPressed: _showPassword,
+                    AppTextFiled(
+                      controller: userController.emailController,
+                      textLabel: 'Email',
+                      styleLabel: const TextStyle(
+                          fontWeight: FontWeight.w400, color: Colors.grey),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15)),
                     ),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15)),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: InkWell(
-                      onTap: () {
-                        Get.toNamed('/reset');
-                      },
-                      child: const Text(
-                        'forget password ?',
-                        style: TextStyle(color: Color(0xFF6C63FF)),
+                    const SizedBox(
+                      height: 25,
+                    ),
+                    AppTextFiled(
+                      controller: userController.passwordController,
+                      textLabel: 'Password',
+                      obsecure: isShow,
+                      styleLabel: const TextStyle(
+                          fontWeight: FontWeight.w400, color: Colors.grey),
+                      suffixIcon: IconButton(
+                        icon: isShow
+                            ? const Icon(Icons.visibility_off)
+                            : const Icon(Icons.visibility),
+                        onPressed: _showPassword,
+                      ),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15)),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: InkWell(
+                        onTap: () {
+                          Get.toNamed('/reset');
+                        },
+                        child: const Text(
+                          'forget password ?',
+                          style: TextStyle(color: Color(0xFF6C63FF)),
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 10,),
-                  AppButton(
-                    width: 130,
-                    height: 40,
-                    textColor: Colors.white,
-                    backgroundColor: Color(0xFF6C63FF),
-                    text: 'Login',
-                    textSize: 16,
-                    textWeight: FontWeight.w600,
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                    raduis: BorderRadius.circular(15),
-                    onPress: userController.login,
-                  ),
-                  const SizedBox(height: 10,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    AppButton(
+                      width: 130,
+                      height: 40,
+                      textColor: Colors.white,
+                      backgroundColor: Color(0xFF6C63FF),
+                      text: AppLocalizations.of(context)!.login,
+                      textSize: 16,
+                      textWeight: FontWeight.w600,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 16),
+                      raduis: BorderRadius.circular(15),
+                      onPress: userController.login,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       Text(
                         'Don\'t have an account ? ',
                         style: TextStyle(
@@ -134,10 +144,9 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                       ),
-                    ]
-                  ),
-                 
-                ],
+                    ]),
+                  ],
+                ),
               ),
             ]),
       ),

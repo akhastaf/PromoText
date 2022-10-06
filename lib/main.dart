@@ -16,6 +16,8 @@ import 'package:promo_app/pages/store/main_page_store.dart';
 import 'package:promo_app/pages/intro_screens/onboard_screen-page.dart';
 import 'package:promo_app/pages/store/promotion_create.dart';
 import 'package:promo_app/services/storage.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'services/api.dart';
 
@@ -52,6 +54,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', ''), // English, no country code
+        Locale('fr', ''), // french, no country code
+      ],
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -65,8 +77,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      //home: const MainPageStore(),
-      initialRoute: '/splash',
+      initialRoute: '/',
       getPages: [
         GetPage(name: '/mainStore', page: () => const MainPageStore()),
         GetPage(name: '/mainCustomer', page: () => const MainPageCustomer()),
