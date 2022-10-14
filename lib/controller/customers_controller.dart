@@ -24,11 +24,11 @@ class CustomersController extends GetxController {
 
   void getCustomers() async {
     try {
-      final res = await api.DioClient.get('/users?page=$page&limit=$limit');
+      final res = await api.DioClient.get('/customers?page=$page&limit=$limit');
       if (res.statusCode == 200) {
         customerList.value = CustomerList.fromJson(res.data);
-        print(customerList);
-        print(res.data);
+        // print(customerList);
+        // print(res.data);
       }
     } catch (error) {
       Get.snackbar('error', error.toString());
@@ -39,7 +39,7 @@ class CustomersController extends GetxController {
     if (!noMoreToLoad.value && customerList.value.meta!.totalPages > page) {
       page++;
       try {
-        final res = await api.DioClient.get('/users?page=$page&limit=$limit');
+        final res = await api.DioClient.get('/customers?page=$page&limit=$limit');
         if (res.statusCode == 200) {
           final customers = CustomerList.fromJson(res.data);
           customerList.value.items!.addAll(customers.items ?? []);

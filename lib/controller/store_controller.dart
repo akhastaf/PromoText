@@ -19,7 +19,6 @@ class StoreController extends GetxController {
   @override
   void onInit() async {
     getStores();
-    scrollController.addListener(_loadMore);
     super.onInit();
   }
 
@@ -28,7 +27,10 @@ class StoreController extends GetxController {
       isLoading.value = true;
       final res = await api.DioClient.get('/users?page=$page&limit=$limit');
       if (res.statusCode == 200) {
+        print(res.data);
         storeList.value = ManagerList.fromJson(res.data);
+        //print(res.data);
+
         //err.value = res.data.toString();
       }
       isLoading.value = false;
@@ -36,29 +38,6 @@ class StoreController extends GetxController {
       err.value = error.toString();
       print(error);
       Get.snackbar('error', error.toString());
-    }
-  }
-
-  _loadMore() async {
-    if (storeList.value.meta!.totalPages > page) {
-      page++;
-      try {
-        isLoading.value = true;
-        final res = await api.DioClient.get('/users?page=$page&limit=$limit');
-        if (res.statusCode == 200) {
-          final newStores = ManagerList.fromJson(res.data);
-          storeList.value.items?.addAll(newStores.items ?? []);
-          storeList.value.meta = newStores.meta;
-          //err.value = res.data.toString();
-        }
-        isLoading.value = false;
-      } catch (error) {
-        err.value = error.toString();
-        print(error);
-        Get.snackbar('error', error.toString());
-      }
-    } else {
-      noMoreToLoad.value = true;
     }
   }
 }

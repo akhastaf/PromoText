@@ -11,6 +11,8 @@ class PromotionsController extends GetxController {
   Rx<bool> isLoading = (false).obs;
   Rx<bool> noMoreToLoad = (false).obs;
   ScrollController scrollController = ScrollController();
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
   @override
   void onInit() async {
     getPromotions();
@@ -19,6 +21,9 @@ class PromotionsController extends GetxController {
   }
 
   // final res = await api.dio('/promotions?page=$page&limit=$limit');
+  void create(GlobalKey<FormState> formKey) async {
+    final data = {};
+  }
 
   void getPromotions() async {
     try {
@@ -26,6 +31,7 @@ class PromotionsController extends GetxController {
       final res =
           await api.DioClient.get('/promotions?page=$page&limit=$limit');
       if (res.statusCode == 200) {
+        print(res.data);
         promotionList.value = PromotionList.fromJson(res.data);
       }
       isLoading.value = false;

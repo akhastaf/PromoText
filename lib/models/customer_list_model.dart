@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:promo_app/models/user.model.dart';
 
+import 'customer_model.dart';
 import 'meta_model.dart';
 
 CustomerList customerListFromJson(String str) => CustomerList.fromJson(json.decode(str));
@@ -10,15 +11,15 @@ CustomerList customerListFromJson(String str) => CustomerList.fromJson(json.deco
 
 class CustomerList {
     CustomerList({
-        this.items,
+        this.items = const [],
         this.meta,
     });
 
-    List<User>? items;
+    List<Customer>? items;
     Meta? meta;
 
     factory CustomerList.fromJson(Map<String, dynamic> json) => CustomerList(
-        items: List<User>.from(json["items"].map((x) => User.fromJson(x))),
+        items: List<Customer>.from(json["items"].map((x) => Customer.fromJson(x))),
         meta: Meta.fromJson(json["meta"]),
     );
 

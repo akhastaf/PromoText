@@ -2,27 +2,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:promo_app/components/app_button.dart';
+import 'package:promo_app/models/customer_model.dart';
 import 'package:promo_app/models/user.model.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class CustomerItemList extends StatelessWidget {
-  final User customer;
+  final Customer customer;
   const CustomerItemList({super.key, required this.customer});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: SizedBox(
-        width: 70,
-        height: 70,
-        child: CircleAvatar(
-          backgroundImage: NetworkImage(customer.avatar),
-        ),
-      ),
+      // leading: SizedBox(
+      //   width: 70,
+      //   height: 70,
+      //   child: CircleAvatar(
+      //     child: Image.network(
+      //       customer.avatar,
+      //       fit: BoxFit.cover,
+      //       height: 80,
+      //       width: 80,
+      //       errorBuilder: (context, error, stackTrace) {
+      //         return Container(
+      //           color: Colors.amber,
+      //           width: 80,
+      //           height: 80,
+      //           alignment: Alignment.center,
+      //           child: const Text(
+      //             'Whoops!',
+      //             style: TextStyle(fontSize: 30),
+      //           ),
+      //         );
+      //       },
+      //     ),
+      //   ),
+      // ),
       title: Text(
-        customer.name,
+        customer.fullName ?? '',
         style: const TextStyle(
-          fontSize: 16,
+          fontSize: 14,
           fontWeight: FontWeight.w500,
           color: Colors.black,
         ),
@@ -36,7 +54,7 @@ class CustomerItemList extends StatelessWidget {
         ),
       ),
       trailing: Text(
-        timeago.format(customer.createdAt),
+        timeago.format(customer.createdAt ?? DateTime.now()),
         style: const TextStyle(
           fontWeight: FontWeight.w400,
           color: Colors.grey,
@@ -44,7 +62,7 @@ class CustomerItemList extends StatelessWidget {
         ),
       ),
       onTap: () {
-        print('tile taped ${customer.name}');
+        print('tile taped ${customer.fullName}');
       },
     );
   }

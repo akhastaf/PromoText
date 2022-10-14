@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
@@ -20,29 +21,30 @@ class UserController extends GetxController {
   final passwordConfirmationController = TextEditingController();
   final resetController = TextEditingController();
 
-  void login() async {
-    final data = {
-      "username": emailController.text,
-      "password": passwordController.text,
-      "token": 'trst'
-    };
-    debugPrint(data.toString());
-    final res = await api.DioClient.post('/auth/login', data: data);
-    if (res.statusCode == 201) {
-      user.value = Login.fromJson(res.data);
-      final refrsh_token = res.headers["set-cookie"]![0].split('=');
-      await storageSecure.storage
-          .write(key: 'access_token', value: user.value.accessToken);
-      await storageSecure.storage
-          .write(key: 'refresh_token', value: refrsh_token[1]);
-      //res.headers['set cookie']
-      await storageSecure.storage
-          .write(key: 'user', value: userToJson(user.value.user!));
-      if (user.value.user?.role == 'CUSTOMER') {
-        Get.offAllNamed('/mainCustomer', arguments: user.value.user);
-      } else if (user.value.user?.role == 'MANAGER') {
-        Get.offAllNamed('/mainStore', arguments: user.value.user);
-        // Get.offAllNamed('/login');
+  void login(GlobalKey<FormState> formKey) async {
+    if (formKey.currentState!.validate()) {
+      final data = {
+        "username": emailController.text,
+        "password": passwordController.text,
+        "token": 'trst'
+      };
+      debugPrint(data.toString());
+      try {
+        final res = await api.DioClient.post('/auth/login', data: data);
+        if (res.statusCode == 201) {
+          user.value = Login.fromJson(res.data);
+          await storageSecure.storage
+              .write(key: 'access_token', value: user.value.accessToken);
+          await storageSecure.storage
+              .write(key: 'user', value: userToJson(user.value.user!));
+          print(user.value.user?.role);
+          Get.offAllNamed('/');
+        }
+      } catch (error) {
+        if (error is DioError){
+          // print(error.response.toString());
+          Get.snackbar('Error', error.response.toString());
+        }
       }
     }
   }
@@ -51,14 +53,10 @@ class UserController extends GetxController {
     try {
       final res = await api.DioClient.delete('/auth/logout');
       if (res.statusCode == 200) {
-        await storageSecure.storage.delete(key: 'refresh_token');
+        // await storageSecure.storage.delete(key: 'refresh_token');
         await storageSecure.storage.delete(key: 'access_token');
-        // if (user.value.user?.role == 'CUSTOMER') {
-        //   Get.offAllNamed('/mainCustomer');
-        // } else if (user.value.user?.role == 'MANAGER') {
-        //   Get.offAllNamed('/mainStore');
-        // }
         await storageSecure.storage.delete(key: 'user');
+        await api.Cookies.deleteAll();
         Get.offAllNamed('/login');
       }
     } catch (error) {
@@ -104,8 +102,20 @@ class UserController extends GetxController {
           Get.snackbar('success', 'check your email for confirmations');
         }
       } catch (error) {
-        Get.snackbar('Error', error.toString());
+        // Get.snackbar('Error', error.toString());
       }
     }
+  }
+
+  void printToken() async {
+    final token = await storageSecure.storage.read(key: 'access_token');
+    final user = await storageSecure.storage.read(key: 'user');
+    print(token);
+    print(user);
+  }
+
+  void clear() async {
+    printToken();
+    await storageSecure.storage.delete(key: 'access_token');
   }
 }

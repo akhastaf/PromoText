@@ -14,29 +14,28 @@ import 'package:promo_app/services/storage.dart';
 class Api extends GetxService {
   late Dio _dio;
   String? _accessToken;
-  StorageSecure _secure = Get.find<StorageSecure>();
+  StorageSecure secure = Get.find<StorageSecure>();
+  // bool isRefreshed = true;
   // 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hbmFnZXIxQG1hbmFnZXIuY29tIiwic3ViIjo1LCJpYXQiOjE2NjQ4Nzc0NzEsImV4cCI6MTY2NDg3ODY3MX0.6kcXib0a4tYKsJjQSypj3DO4fjVbpcGBxwRGD0dt6Ew';
 
-  //late CookieJar _cookieJar;
+  late CookieJar _cookieJar;
 
   Api();
 
   Dio get DioClient => _dio;
-  //CookieJar get CookiesJar => _cookieJar;
+  CookieJar get Cookies => _cookieJar;
 
   Future<Api> init() async {
     // Init Dio
-    _dio =
-        Dio(BaseOptions(baseUrl: 'https://00e2-197-230-240-146.eu.ngrok.io'));
-    // get access token
-    _accessToken = await _secure.storage.read(key: 'access_token') ?? '';
+    _dio = Dio(BaseOptions(baseUrl: 'https://55d5-41-250-44-186.eu.ngrok.io'));
     // Setup cookies
     String appDoc = await getDocPath();
-    //_cookieJar = PersistCookieJar(storage: FileStorage('$appDoc/.cookie'));
-    //_dio.interceptors.add(CookieManager(_cookieJar));
+    _cookieJar = PersistCookieJar(storage: FileStorage('$appDoc/.cookiess'));
+    _dio.interceptors.add(CookieManager(_cookieJar));
     // Setup the auth interceptors
     _dio.interceptors
         .add(InterceptorsWrapper(onRequest: (optins, handler) async {
+      _accessToken = await secure.storage.read(key: 'access_token') ?? '';
       optins.headers['Authorization'] = 'Bearer $_accessToken';
       return handler.next(optins);
     }, onError: (DioError error, handler) async {
@@ -61,15 +60,15 @@ class Api extends GetxService {
 
   Future<void> refreshToken() async {
     try {
-      final refreshToken = await _secure.storage.read(key: 'refresh_token');
-      final response = await _dio.get('/auth/refresh_token',
-          options: Options(headers: {"cookie": refreshToken ?? ''}));
+      final refreshToken = await secure.storage.read(key: 'refresh_token');
+      final response = await _dio.get('/auth/refresh_token');
       if (response.statusCode == 200) {
         _accessToken = response.data['access_token'];
-        await _secure.storage.write(key: 'access_token', value: _accessToken);
+        print('from api service : $_accessToken');
+        await secure.storage.write(key: 'access_token', value: _accessToken);
       } else {
-        await _secure.storage.delete(key: 'refresh_token');
-        // await _cookieJar.deleteAll();
+        // await _secure.storage.delete(key: 'refresh_token');
+        await _cookieJar.deleteAll();
       }
     } catch (error) {
       print(error.toString());

@@ -42,9 +42,9 @@ class _LoginPageState extends State<LoginPage> {
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(
-                  icon: const Icon(Icons.clear_rounded),
-                  onPressed: () => Get.back()),
+              // IconButton(
+              //     icon: const Icon(Icons.clear_rounded),
+              //     onPressed: () => Get.back()),
               Form(
                 key: _formKey,
                 child: Column(
@@ -65,6 +65,12 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     AppTextFiled(
                       controller: userController.emailController,
+                      validation: (p0) {
+                        if (p0 == null || p0.isEmpty || !p0.isEmail) {
+                          return 'Email should be correct email';
+                        }
+                        return null;
+                      },
                       textLabel: 'Email',
                       styleLabel: const TextStyle(
                           fontWeight: FontWeight.w400, color: Colors.grey),
@@ -76,6 +82,12 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     AppTextFiled(
                       controller: userController.passwordController,
+                      validation: (p0) {
+                        if (p0 == null || p0.isEmpty) {
+                          return 'Password should not be null';
+                        }
+                        return null;
+                      },
                       textLabel: 'Password',
                       obsecure: isShow,
                       styleLabel: const TextStyle(
@@ -96,6 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                       alignment: Alignment.bottomRight,
                       child: InkWell(
                         onTap: () {
+                          // userController.clear();
                           Get.toNamed('/reset');
                         },
                         child: const Text(
@@ -118,33 +131,36 @@ class _LoginPageState extends State<LoginPage> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 8, horizontal: 16),
                       raduis: BorderRadius.circular(15),
-                      onPress: userController.login,
+                      onPress: () {
+                        userController.login(_formKey);
+                      },
                     ),
                     const SizedBox(
                       height: 10,
                     ),
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      Text(
-                        'Don\'t have an account ? ',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w300,
-                          color: Colors.grey.shade500,
-                          fontSize: 14,
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          Get.toNamed('/signup');
-                        },
-                        child: const Text(
-                          'Create an account',
-                          style: TextStyle(
-                            color: Color(0xFF6C63FF),
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ]),
+                    // Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    //   Text(
+                    //     'Don\'t have an account ? ',
+                    //     style: TextStyle(
+                    //       fontWeight: FontWeight.w300,
+                    //       color: Colors.grey.shade500,
+                    //       fontSize: 14,
+                    //     ),
+                    //   ),
+                    //   InkWell(
+                    //     onTap: () {
+                    //       Get.toNamed('/signup');
+                    //     },
+                    //     // userController.printToken,
+                    //     child: const Text(
+                    //       'Create an account',
+                    //       style: TextStyle(
+                    //         color: Color(0xFF6C63FF),
+                    //         fontWeight: FontWeight.w600,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ]),
                   ],
                 ),
               ),

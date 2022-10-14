@@ -44,8 +44,13 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
+	<true/> 
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>We use the camera to scan QR code</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access in order to open photos of QR code</string>
+
 </dict>
 </plist>

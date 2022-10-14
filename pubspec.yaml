@@ -49,6 +49,7 @@ dependencies:
   date_format: ^2.0.7
   image_picker: ^0.8.5+3
   intl: ^0.17.0
+  mobile_scanner: ^2.0.0
 
   # firebase_messaging: ^13.0.4
   # flutter_svg: ^1.1.5

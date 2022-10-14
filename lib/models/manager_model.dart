@@ -25,7 +25,7 @@ class Manager {
     this.address,
     this.createdAt,
     this.updatedAt,
-    this.promotions,
+    this.promotions = const [],
   });
 
   int? id;
@@ -40,7 +40,15 @@ class Manager {
   DateTime? updatedAt;
   List<Promotion>? promotions;
 
-  factory Manager.fromJson(Map<String, dynamic> json) => Manager(
+  factory Manager.fromJson(Map<String, dynamic> json) {
+    // final promos = List<Promotion>.from(
+    //     json["promotions"].map((x) => ));
+    // print(promos);
+    // json["promotions"].map((x) {
+    //   print('here $x');
+    // });
+    // print(json["promotions"]);
+    return Manager(
         id: json["id"],
         name: json["name"],
         email: json["email"],
@@ -50,12 +58,16 @@ class Manager {
         phone: json["phone"],
         address: json["address"],
         createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
-        promotions: json["promotions"] != null
-            ? List<Promotion>.from(
-                json["promotions"].map((x) => Promotion.fromJson(x)))
-            : [],
-      );
+        updatedAt: DateTime.parse(json["updatedAt"]));
+        // promotions: List<Promotion>.from(
+        //     json["promotions"].map((x) => Promotion.fromJson(x))));
+  }
+
+  // promotions: json["promotions"] != null
+  //     ? List<Promotion>.from(
+  //         json["promotions"].map((x) => Promotion.fromJson(x)))
+  //     : [],
+  // );
 
   // Map<String, dynamic> toJson() => {
   //     "id": id,

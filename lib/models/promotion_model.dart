@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'user.model.dart';
+
+Promotion promotionFromJson(String str) => Promotion.fromJson(json.decode(str));
 
 class Promotion {
     Promotion({

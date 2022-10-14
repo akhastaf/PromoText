@@ -13,24 +13,24 @@ class PromotionItemList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Image.network(
-          promotion.image,
-          fit: BoxFit.cover,
-          height: 80,
-          width: 80,
-          errorBuilder: (context, error, stackTrace) {
-            return Container(
-              color: Colors.amber,
-              width: 80,
-              height: 80,
-              alignment: Alignment.center,
-              child: const Text(
-                'Whoops!',
-                style: TextStyle(fontSize: 30),
-              ),
-            );
-          },
-        ),
+      // leading: Image.network(
+      //     promotion.image,
+      //     fit: BoxFit.cover,
+      //     height: 80,
+      //     width: 80,
+      //     errorBuilder: (context, error, stackTrace) {
+      //       return Container(
+      //         color: Colors.amber,
+      //         width: 80,
+      //         height: 80,
+      //         alignment: Alignment.center,
+      //         child: const Text(
+      //           'Whoops!',
+      //           style: TextStyle(fontSize: 30),
+      //         ),
+      //       );
+      //     },
+      //   ),
       title: Text(
         promotion.title,
           style: const TextStyle(
