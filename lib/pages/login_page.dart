@@ -39,12 +39,15 @@ class _LoginPageState extends State<LoginPage> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // IconButton(
-              //     icon: const Icon(Icons.clear_rounded),
-              //     onPressed: () => Get.back()),
+              Image.asset(
+                'assets/images/logo.png',
+                height: 150,
+                width: 150,
+                alignment: Alignment.center,
+              ),
               Form(
                 key: _formKey,
                 child: Column(
@@ -67,11 +70,11 @@ class _LoginPageState extends State<LoginPage> {
                       controller: userController.emailController,
                       validation: (p0) {
                         if (p0 == null || p0.isEmpty || !p0.isEmail) {
-                          return 'Email should be correct email';
+                          return AppLocalizations.of(context)!.email_validation;
                         }
                         return null;
                       },
-                      textLabel: 'Email',
+                      textLabel: AppLocalizations.of(context)!.email,
                       styleLabel: const TextStyle(
                           fontWeight: FontWeight.w400, color: Colors.grey),
                       border: OutlineInputBorder(
@@ -84,11 +87,11 @@ class _LoginPageState extends State<LoginPage> {
                       controller: userController.passwordController,
                       validation: (p0) {
                         if (p0 == null || p0.isEmpty) {
-                          return 'Password should not be null';
+                          return AppLocalizations.of(context)!.password_validation;
                         }
                         return null;
                       },
-                      textLabel: 'Password',
+                      textLabel: AppLocalizations.of(context)!.password,
                       obsecure: isShow,
                       styleLabel: const TextStyle(
                           fontWeight: FontWeight.w400, color: Colors.grey),
@@ -111,8 +114,8 @@ class _LoginPageState extends State<LoginPage> {
                           // userController.clear();
                           Get.toNamed('/reset');
                         },
-                        child: const Text(
-                          'forget password ?',
+                        child: Text(
+                          AppLocalizations.of(context)!.forget_link,
                           style: TextStyle(color: Color(0xFF6C63FF)),
                         ),
                       ),

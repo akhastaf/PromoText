@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
@@ -14,14 +15,24 @@ class CustomersList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx( () => Flexible(
-        child: ListView.builder(
-          itemCount: customersController.customerList.value.items?.length,
-          itemBuilder: (context, index) {
-            return CustomerItemList(customer: customersController.customerList.value.items![index]);
-          },
+    return Column(children: [
+      Obx(
+        () => Flexible(
+          child: RefreshIndicator(
+            onRefresh: () async {
+              customersController.getCustomers();
+            },
+            child: ListView.builder(
+              itemCount: customersController.customerList.length,
+              itemBuilder: (context, index) {
+                return CustomerItemList(
+                    customer:
+                        customersController.customerList[index]);
+              },
+            ),
+          ),
         ),
-      )
-    );
+      ),
+    ]);
   }
 }

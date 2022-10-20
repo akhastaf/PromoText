@@ -1,7 +1,9 @@
+import 'package:date_format/date_format.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:promo_app/main.dart';
 import 'package:promo_app/pages/login_page.dart';
 import 'package:promo_app/services/storage.dart';
 
@@ -9,7 +11,7 @@ import '../models/login_model.dart';
 import '../models/user.model.dart';
 import '../services/api.dart';
 
-class UserController extends GetxController {
+class UserController extends GetxService {
   Api api = Get.find<Api>();
   StorageSecure storageSecure = Get.find<StorageSecure>();
   Rx<Login> user = Login().obs;
@@ -17,9 +19,27 @@ class UserController extends GetxController {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
+  final languageController = TextEditingController();
+  final addressController = TextEditingController();
   final passwordController = TextEditingController();
-  final passwordConfirmationController = TextEditingController();
+  final newpasswordController = TextEditingController();
+  final passwordconfirmationController = TextEditingController();
   final resetController = TextEditingController();
+
+  Future<UserController> init() async {
+    try {
+      final res = await api.DioClient.get('/users/me');
+      if (res.statusCode == 200) {
+        user.value.user = User.fromJson(res.data);
+      } else {
+        user.value.user = null;
+      }
+    } catch (error) {
+      print(error.toString());
+      user.value.user = null;
+    }
+    return this;
+  }
 
   void login(GlobalKey<FormState> formKey) async {
     if (formKey.currentState!.validate()) {
@@ -35,13 +55,15 @@ class UserController extends GetxController {
           user.value = Login.fromJson(res.data);
           await storageSecure.storage
               .write(key: 'access_token', value: user.value.accessToken);
-          await storageSecure.storage
-              .write(key: 'user', value: userToJson(user.value.user!));
-          print(user.value.user?.role);
+          emailController.clear();
+          passwordController.clear();
+          // await storageSecure.storage
+          //     .write(key: 'user', value: userToJson(user.value.user!));
+          // print(user.value.user?.role);
           Get.offAllNamed('/');
         }
       } catch (error) {
-        if (error is DioError){
+        if (error is DioError) {
           // print(error.response.toString());
           Get.snackbar('Error', error.response.toString());
         }
@@ -55,7 +77,7 @@ class UserController extends GetxController {
       if (res.statusCode == 200) {
         // await storageSecure.storage.delete(key: 'refresh_token');
         await storageSecure.storage.delete(key: 'access_token');
-        await storageSecure.storage.delete(key: 'user');
+        // await storageSecure.storage.delete(key: 'user');
         await api.Cookies.deleteAll();
         Get.offAllNamed('/login');
       }
@@ -84,38 +106,47 @@ class UserController extends GetxController {
     }
   }
 
-  void signup(GlobalKey<FormState> formKey) async {
+  void edit(GlobalKey<FormState> formKey) async {
     if (formKey.currentState!.validate()) {
-      try {
-        final data = {
-          "name": nameController.text,
-          "email": emailController.text,
-          "phone": phoneController.text,
-          "password": passwordController.text,
-          "password_confirmation": passwordConfirmationController.text
-        };
-        final res = await api.DioClient.post('/auth/register', data: data);
-        if (res.statusCode == 201) {
-          emailController.clear();
-          passwordController.clear();
-          Get.toNamed('/login');
-          Get.snackbar('success', 'check your email for confirmations');
-        }
-      } catch (error) {
-        // Get.snackbar('Error', error.toString());
-      }
+      final data = {
+        "name": nameController.text,
+        "address": addressController.text,
+        "language": languageController.text,
+        "phone": phoneController.text,
+      };
+      api.DioClient.patch('/users/me', data: data).then((value) {
+        Get.toNamed('/');
+      }).catchError((error) {
+        print(error);
+      });
     }
   }
 
-  void printToken() async {
-    final token = await storageSecure.storage.read(key: 'access_token');
-    final user = await storageSecure.storage.read(key: 'user');
-    print(token);
-    print(user);
+  void editPassword(GlobalKey<FormState> formKey) async {
+    if (formKey.currentState!.validate()) {
+      final data = {
+        "password": passwordController.text,
+        // "email": emailController.text,
+        "new_password": newpasswordController.text,
+        "password_confirmation": passwordconfirmationController.text,
+      };
+      api.DioClient.patch('/users/me/security', data: data).then((value) {
+        passwordController.clear();
+        newpasswordController.clear();
+        passwordconfirmationController.clear();
+        Get.toNamed('/');
+      }).catchError((error) {
+        print(error);
+      });
+    }
   }
 
-  void clear() async {
-    printToken();
-    await storageSecure.storage.delete(key: 'access_token');
+  void refreshUser() async {
+    api.DioClient.get('/users/me').then((data) {
+      user.value.user = User.fromJson(data.data);
+    }).catchError((error) {
+      print((error.toString()));
+      user.value.user = null;
+    });
   }
 }

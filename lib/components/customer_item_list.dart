@@ -61,9 +61,9 @@ class CustomerItemList extends StatelessWidget {
           fontSize: 12,
         ),
       ),
-      onTap: () {
-        print('tile taped ${customer.fullName}');
-      },
+      // onTap: () {
+      //   print('tile taped ${customer.fullName}');
+      // },
     );
   }
 }

@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:promo_app/components/app_button.dart';
 import 'package:promo_app/components/app_text_filed.dart';
 import 'package:promo_app/controller/user_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class ResetPage extends StatefulWidget {
   const ResetPage({super.key});
@@ -40,7 +42,7 @@ class _ResetPageState extends State<ResetPage> {
             children: [
               Obx(() => Text(userController.err.value)),
               Text(
-                'Please, enter your email and we will send you instructions on how to reset your password.',
+                AppLocalizations.of(context)!.reset_title,
                 softWrap: true,
                 style: TextStyle(
                   color: Colors.grey.shade700,
@@ -54,11 +56,11 @@ class _ResetPageState extends State<ResetPage> {
                 controller: userController.resetController,
                 validation: (p0) {
                   if (p0 == null || !p0.isEmail) {
-                    return 'Email should be valid';
+                    return AppLocalizations.of(context)!.email_validation;
                   }
                   return null;
                 },
-                textLabel: 'Email',
+                textLabel: AppLocalizations.of(context)!.email,
                 styleLabel: TextStyle(color: Colors.grey.shade400),
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
@@ -69,7 +71,7 @@ class _ResetPageState extends State<ResetPage> {
               AppButton(
                 textColor: Colors.white,
                 backgroundColor: Color(0xFF6C63FF),
-                text: 'Reset your password',
+                text: AppLocalizations.of(context)!.reset_btn,
                 textSize: 16,
                 width: 190,
                 textWeight: FontWeight.w600,

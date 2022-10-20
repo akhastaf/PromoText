@@ -14,6 +14,7 @@ import 'package:promo_app/services/storage.dart';
 class Api extends GetxService {
   late Dio _dio;
   String? _accessToken;
+  bool _reload = true;
   StorageSecure secure = Get.find<StorageSecure>();
   // bool isRefreshed = true;
   // 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hbmFnZXIxQG1hbmFnZXIuY29tIiwic3ViIjo1LCJpYXQiOjE2NjQ4Nzc0NzEsImV4cCI6MTY2NDg3ODY3MX0.6kcXib0a4tYKsJjQSypj3DO4fjVbpcGBxwRGD0dt6Ew';
@@ -27,7 +28,7 @@ class Api extends GetxService {
 
   Future<Api> init() async {
     // Init Dio
-    _dio = Dio(BaseOptions(baseUrl: 'https://55d5-41-250-44-186.eu.ngrok.io'));
+    _dio = Dio(BaseOptions(baseUrl: 'https://114b-185-216-201-4.ngrok.io/api'));
     // Setup cookies
     String appDoc = await getDocPath();
     _cookieJar = PersistCookieJar(storage: FileStorage('$appDoc/.cookiess'));
@@ -40,9 +41,11 @@ class Api extends GetxService {
       return handler.next(optins);
     }, onError: (DioError error, handler) async {
       if (error.response?.statusCode == 401 &&
-          error.response?.data['message'] == 'Unauthorized') {
+          error.response?.data['message'] == 'Unauthorized' &&
+          _reload) {
         await refreshToken();
-        return handler.resolve(await _retry(error.requestOptions));
+        if (_reload)
+          return handler.resolve(await _retry(error.requestOptions));
       }
       return handler.next(error);
     }));
@@ -64,13 +67,14 @@ class Api extends GetxService {
       final response = await _dio.get('/auth/refresh_token');
       if (response.statusCode == 200) {
         _accessToken = response.data['access_token'];
-        print('from api service : $_accessToken');
         await secure.storage.write(key: 'access_token', value: _accessToken);
       } else {
         // await _secure.storage.delete(key: 'refresh_token');
+        _reload = false;
         await _cookieJar.deleteAll();
       }
     } catch (error) {
+      _reload = false;
       print(error.toString());
     }
   }

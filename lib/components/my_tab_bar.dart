@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:promo_app/components/promotions_list.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'customers_list.dart';
 
 class MyTabBar extends StatefulWidget {
@@ -27,15 +27,16 @@ class _MyTabBarState extends State<MyTabBar> with TickerProviderStateMixin {
               labelColor: Colors.black,
               controller: _tabController,
               isScrollable: true,
-              labelPadding: const EdgeInsets.only(right: 20, left: 0, bottom: 10),
+              labelPadding:
+                  const EdgeInsets.only(right: 20, left: 0, bottom: 10),
               indicator: CircleTabIndicator(color: Colors.black, radius: 4),
               labelStyle: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),
-              tabs: const [
-                Text('Promotions'),
-                Text('Customers'),
+              tabs: [
+                Text(AppLocalizations.of(context)!.tab_promotions),
+                Text(AppLocalizations.of(context)!.tab_promotions),
               ],
             ),
           ),
@@ -43,13 +44,11 @@ class _MyTabBarState extends State<MyTabBar> with TickerProviderStateMixin {
         const SizedBox(
           height: 20,
         ),
-        Container(
-          width: double.maxFinite,
-          height: 350,
+        Expanded(
           child: TabBarView(
             controller: _tabController,
             children: [
-              PromotionsList(),
+              const PromotionsList(),
               CustomersList(),
             ],
           ),

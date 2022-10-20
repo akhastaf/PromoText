@@ -7,6 +7,7 @@ import 'package:promo_app/components/app_text_filed.dart';
 import 'package:promo_app/components/image_stack.dart';
 import 'package:get/get.dart';
 import 'package:promo_app/controller/promotions_controller.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PromotionCreate extends StatefulWidget {
   const PromotionCreate({super.key});
@@ -44,19 +45,15 @@ class _PromotionCreateState extends State<PromotionCreate> {
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const ImageAvatar(),
-              const SizedBox(
-                height: 20,
-              ),
               AppTextFiled(
                 controller: promotionController.titleController,
                 validation: (p0) {
                   if (p0 == null || p0.isEmpty) {
-                    return 'Title should not be empty';
+                    return AppLocalizations.of(context)!.title_validation;
                   }
                   return null;
                 },
-                textLabel: 'Tilte',
+                textLabel: AppLocalizations.of(context)!.title,
                 styleLabel: const TextStyle(
                     color: Colors.grey, fontWeight: FontWeight.w400),
                 border:
@@ -67,7 +64,7 @@ class _PromotionCreateState extends State<PromotionCreate> {
               ),
               AppTextFiled(
                 controller: promotionController.descriptionController,
-                textLabel: 'Description',
+                textLabel: AppLocalizations.of(context)!.description,
                 maxLine: 4,
                 styleLabel: const TextStyle(
                     color: Colors.grey, fontWeight: FontWeight.w400),
@@ -81,9 +78,9 @@ class _PromotionCreateState extends State<PromotionCreate> {
                 AppButton(
                   textColor: Colors.white,
                   backgroundColor: Color(0xFF6C63FF),
-                  text: 'Create promotions',
+                  text: AppLocalizations.of(context)!.create,
                   textSize: 16,
-                  width: 170,
+                  width: 120,
                   textWeight: FontWeight.w600,
                   padding:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -98,7 +95,7 @@ class _PromotionCreateState extends State<PromotionCreate> {
                 AppButton(
                   textColor: Colors.white,
                   backgroundColor: Colors.grey,
-                  text: 'Cancel',
+                  text: AppLocalizations.of(context)!.cancel,
                   textSize: 16,
                   textWeight: FontWeight.w600,
                   width: 120,

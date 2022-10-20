@@ -4,13 +4,12 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:get/route_manager.dart';
 import 'package:promo_app/controller/customers_controller.dart';
 import 'package:promo_app/controller/promotions_controller.dart';
-import 'package:promo_app/controller/store_controller.dart';
 import 'package:promo_app/controller/user_controller.dart';
+import 'package:promo_app/pages/edit_password_page.dart';
 import 'package:promo_app/pages/login_page.dart';
 import 'package:promo_app/pages/main_page.dart';
 import 'package:promo_app/pages/reset_page.dart';
-import 'package:promo_app/pages/signup_page.dart';
-import 'package:promo_app/pages/splash_page.dart';
+import 'package:promo_app/pages/edit_page.dart';
 import 'package:promo_app/pages/store/main_page_store.dart';
 import 'package:promo_app/pages/intro_screens/onboard_screen-page.dart';
 import 'package:promo_app/pages/store/promotion_create.dart';
@@ -27,65 +26,54 @@ void main() async {
 }
 
 Future<void> initService() async {
-  debugPrint('starting service ...');
   await Get.putAsync(() => StorageSecure().init());
   await Get.putAsync(() => Api().init());
-  Get.put(
-    () => UserController(),
-  );
-  Get.put(
-    () => PromotionsController(),
-  );
-  Get.put(
-    () => CustomersController(),
-  );
-  Get.put(
-    () => StoreController(),
-  );
-  debugPrint('service started');
+  await Get.putAsync(() => UserController().init());
+  Get.put(() => PromotionsController());
+  Get.put(() => CustomersController());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+
+  static void setLocale(BuildContext context, Locale newLocale) {
+    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
+    state?.setLocale(newLocale);
+  }
+}
+
+class _MyAppState extends State<MyApp> {
+  Locale? _locale;
+  setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en', ''), // English, no country code
-        Locale('fr', ''), // french, no country code
-      ],
-      title: 'Flutter Demo',
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      locale: _locale,
+      title: 'Promo app',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
       initialRoute: '/',
       getPages: [
         GetPage(name: '/mainStore', page: () => const MainPageStore()),
         GetPage(name: '/login', page: () => const LoginPage()),
-        GetPage(name: '/reset', page: () => ResetPage()),
-        GetPage(name: '/signup', page: () => SignupPage()),
-        GetPage(name: '/intro', page: () => const OnboardScreen()),
-        GetPage(name: '/splash', page: () => const SplashPage()),
+        GetPage(name: '/reset', page: () => const ResetPage()),
+        GetPage(name: '/edit', page: () => EditProfile()),
+        GetPage(name: '/editPassword', page: () => const EditPassword()),
         GetPage(name: '/', page: () => const MainPage()),
-        GetPage(name: '/promotionCreate', page: () => PromotionCreate()),
+        GetPage(name: '/promotionCreate', page: () => const PromotionCreate()),
       ],
     );
   }

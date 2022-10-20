@@ -5,21 +5,38 @@ import 'package:get/get.dart';
 import 'package:promo_app/components/app_button.dart';
 import 'package:promo_app/components/app_text_filed.dart';
 import 'package:promo_app/controller/user_controller.dart';
+import 'package:promo_app/models/user.model.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../components/profile_avatar.dart';
+import '../services/api.dart';
 
-class SignupPage extends StatefulWidget {
-  const SignupPage({super.key});
+class EditPassword extends StatefulWidget {
+  const EditPassword({super.key});
 
   @override
-  State<SignupPage> createState() => _SignupPageState();
+  State<EditPassword> createState() => _EditPasswordState();
 }
 
-class _SignupPageState extends State<SignupPage> {
+class _EditPasswordState extends State<EditPassword> {
+  Api api = Get.find<Api>();
   UserController userController = Get.find<UserController>();
   final _formKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    // TODO: implement initState
+    // getUser();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text(
+          AppLocalizations.of(context)!.edit_password_title,
+          style: TextStyle(color: Colors.black),
+          textAlign: TextAlign.center,
+        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
@@ -41,110 +58,73 @@ class _SignupPageState extends State<SignupPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text('Create an account for '),
-                      Text(
-                        'free',
-                        style: TextStyle(fontWeight: FontWeight.w600),
-                      ),
-                    ]),
                 const SizedBox(
                   height: 40,
-                ),
-                AppTextFiled(
-                  controller: userController.nameController,
-                  validation: (p0) {
-                    if (p0 == null || p0.isEmpty) {
-                      return 'Name should not be null';
-                    }
-                    return null;
-                  },
-                  textLabel: 'Name',
-                  styleLabel: TextStyle(color: Colors.grey.shade400),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                AppTextFiled(
-                  controller: userController.emailController,
-                  validation: (p0) {
-                    if (p0 == null || p0.isEmpty || !p0.isEmail) {
-                      return 'Email should be correct email';
-                    }
-                    return null;
-                  },
-                  textLabel: 'Email',
-                  styleLabel: TextStyle(color: Colors.grey.shade400),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                AppTextFiled(
-                  controller: userController.phoneController,
-                  validation: (p0) {
-                    if (p0 == null || p0.isEmpty || !p0.isPhoneNumber) {
-                      return 'Phone should not correct phone number';
-                    }
-                    return null;
-                  },
-                  textLabel: 'Phone',
-                  styleLabel: TextStyle(color: Colors.grey.shade400),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                ),
-                const SizedBox(
-                  height: 15,
                 ),
                 AppTextFiled(
                   controller: userController.passwordController,
                   validation: (p0) {
                     if (p0 == null || p0.isEmpty) {
-                      return 'Password should not be null';
+                      return AppLocalizations.of(context)!.password_validation;
                     }
                     return null;
                   },
-                  textLabel: 'Password',
+                  obsecure: true,
+                  textLabel: AppLocalizations.of(context)!.password,
                   styleLabel: TextStyle(color: Colors.grey.shade400),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15)),
                 ),
                 const SizedBox(
-                  height: 15,
+                  height: 30,
                 ),
                 AppTextFiled(
-                  controller: userController.passwordConfirmationController,
+                  controller: userController.newpasswordController,
                   validation: (p0) {
                     if (p0 == null || p0.isEmpty) {
-                      return 'Password confirmation should not be null';
+                      return AppLocalizations.of(context)!.new_password_validation;
                     }
                     return null;
                   },
-                  textLabel: 'Password confirmations',
+                  obsecure: true,
+                  textLabel: AppLocalizations.of(context)!.new_password,
                   styleLabel: TextStyle(color: Colors.grey.shade400),
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15)),
                 ),
                 const SizedBox(
-                  height: 15,
+                  height: 30,
+                ),
+                AppTextFiled(
+                  controller: userController.passwordconfirmationController,
+                  validation: (p0) {
+                    if (p0 == null || p0.isEmpty) {
+                      return AppLocalizations.of(context)!.password_confirmation_validation;
+                    }
+                    return null;
+                  },
+                  obsecure: true,
+                  textLabel: AppLocalizations.of(context)!.password_confirmation,
+                  styleLabel: TextStyle(color: Colors.grey.shade400),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15)),
+                ),
+                const SizedBox(
+                  height: 30,
                 ),
                 AppButton(
                   textColor: Colors.white,
                   backgroundColor: Color(0xFF6C63FF),
-                  text: 'Sign up',
+                  text: AppLocalizations.of(context)!.edit_password_btn,
                   textSize: 16,
                   // width: 190,
                   textWeight: FontWeight.w600,
+                  width: 180,
                   padding:
                       const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   raduis: BorderRadius.circular(15),
                   onPress: () {
-                    userController.signup(_formKey);
+                    userController.editPassword(_formKey);
                   },
                 )
               ],

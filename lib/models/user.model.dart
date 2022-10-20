@@ -18,8 +18,8 @@ class User {
         required this.role,
         required this.phone,
         required this.address,
-        required this.createdAt,
-        required this.updatedAt,
+        // required this.createdAt,
+        // required this.updatedAt,
     });
 
     int id;
@@ -30,8 +30,8 @@ class User {
     String role;
     dynamic phone;
     dynamic address;
-    DateTime createdAt;
-    DateTime updatedAt;
+    // DateTime createdAt;
+    // DateTime updatedAt;
 
     factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
@@ -42,8 +42,8 @@ class User {
         role: json["role"],
         phone: json["phone"],
         address: json["address"],
-        createdAt: DateTime.parse(json["createdAt"]),
-        updatedAt: DateTime.parse(json["updatedAt"]),
+        // createdAt: DateTime.parse(json["createdAt"]),
+        // updatedAt: DateTime.parse(json["updatedAt"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -55,8 +55,8 @@ class User {
         "role": role,
         "phone": phone,
         "address": address,
-        "createdAt": createdAt.toIso8601String(),
-        "updatedAt": updatedAt.toIso8601String(),
+        // "createdAt": createdAt.toIso8601String(),
+        // "updatedAt": updatedAt.toIso8601String(),
     };
 }
 

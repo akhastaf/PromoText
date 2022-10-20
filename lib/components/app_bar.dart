@@ -12,25 +12,25 @@ class MyAppBar extends StatelessWidget with PreferredSizeWidget {
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      leading: IconButton(
-        icon: const Icon(
-          Icons.menu,
-          size: 36,
-          color: Colors.grey,
-        ),
-        onPressed: () {},
-      ),
-      actions: [
-        IconButton(
-            onPressed: (() {
-              userController.logout();
-            }),
-            icon: const Icon(
-              Icons.logout,
-              size: 36,
-              color: Colors.grey,
-            ))
-      ],
+      // leading: IconButton(
+      //   icon: const Icon(
+      //     Icons.menu,
+      //     size: 36,
+      //     color: Colors.grey,
+      //   ),
+      //   onPressed: () {},
+      // ),
+      // actions: [
+      //   IconButton(
+      //       onPressed: (() {
+      //         userController.logout();
+      //       }),
+      //       icon: const Icon(
+      //         Icons.logout,
+      //         size: 36,
+      //         color: Colors.grey,
+      //       ))
+      // ],
     );
   }
 

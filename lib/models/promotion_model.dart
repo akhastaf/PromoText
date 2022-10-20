@@ -9,7 +9,6 @@ class Promotion {
         required this.id,
         required this.title,
         required this.description,
-        required this.image,
         required this.createdAt,
         required this.updatedAt,
         required this.user,
@@ -18,7 +17,6 @@ class Promotion {
     int id;
     String title;
     String description;
-    String image;
     DateTime createdAt;
     DateTime updatedAt;
     User user;
@@ -27,7 +25,6 @@ class Promotion {
         id: json["id"],
         title: json["title"],
         description: json["description"],
-        image: json["image"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         user: User.fromJson(json["user"]),
@@ -37,7 +34,6 @@ class Promotion {
         "id": id,
         "title": title,
         "description": description,
-        "image": image,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
         "user": user.toJson(),

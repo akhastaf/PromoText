@@ -3,7 +3,6 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:promo_app/components/app_bar.dart';
-import 'package:promo_app/pages/splash_page.dart';
 import 'package:promo_app/pages/store/home_page_store.dart';
 import 'package:promo_app/pages/profile_page.dart';
 
@@ -16,8 +15,8 @@ class MainPageStore extends StatefulWidget {
 
 class _MainPageStoreState extends State<MainPageStore> {
   List pages = [
-    const HomePageStore(),
-    const ProfilePage(),
+    HomePageStore(),
+    ProfilePage(),
   ];
   int currentIndex = 0;
   void onTap(index) {
