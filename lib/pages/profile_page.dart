@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:promo_app/components/profile_menu.dart';
 import 'package:promo_app/services/storage.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../components/profile_avatar.dart';
 import '../controller/user_controller.dart';
@@ -45,18 +46,17 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           Text(
             userController.user.value.user?.name ?? '',
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 16
-            ),
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
           ),
           const SizedBox(
             height: 20,
           ),
-          Text(userController.user.value.user?.email ?? '',
+          Text(
+            userController.user.value.user?.email ?? '',
             style: const TextStyle(
               fontWeight: FontWeight.w500,
-            ),),
+            ),
+          ),
           const SizedBox(
             height: 20,
           ),
@@ -73,9 +73,21 @@ class _ProfilePageState extends State<ProfilePage> {
                 Get.toNamed('editPassword');
               }),
           ProfileMenu(
+              icon: Icons.qr_code,
+              text: AppLocalizations.of(context)!.get_qr_code,
+              press: () {}),
+          ProfileMenu(
               icon: Icons.support,
               text: AppLocalizations.of(context)!.support,
-              press: () {}),
+              press: () async {
+                // if (userController.user.value.user!.salesman.email.length < 0) {
+                  final Uri emailLaunchUri = Uri(
+                    scheme: 'mailto',
+                    path: 'admin@benguerir.tech'//userController.user.value.user?.salesman.email ?? '',
+                  );
+                  launchUrl(emailLaunchUri);
+                // }
+              }),
           ProfileMenu(
               icon: Icons.logout,
               text: AppLocalizations.of(context)!.logout,

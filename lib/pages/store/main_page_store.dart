@@ -27,14 +27,15 @@ class _MainPageStoreState extends State<MainPageStore> {
 
   @override
   void initState() {
-    
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(),
+      // appBar: AppBar(
+      //   elevation: 0,
+      // ),
       body: pages[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
           selectedItemColor: Colors.black,

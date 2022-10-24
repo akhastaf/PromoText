@@ -31,6 +31,7 @@ class UserController extends GetxService {
       final res = await api.DioClient.get('/users/me');
       if (res.statusCode == 200) {
         user.value.user = User.fromJson(res.data);
+        if (user.value.user!.isActive) user.value.user = null;
       } else {
         user.value.user = null;
       }
@@ -45,14 +46,15 @@ class UserController extends GetxService {
     if (formKey.currentState!.validate()) {
       final data = {
         "username": emailController.text,
-        "password": passwordController.text,
-        "token": 'trst'
+        "password": passwordController.text
       };
       debugPrint(data.toString());
       try {
         final res = await api.DioClient.post('/auth/login', data: data);
+        // debugPrint(res.toString());
         if (res.statusCode == 201) {
           user.value = Login.fromJson(res.data);
+          debugPrint(user.value.user.toString());
           await storageSecure.storage
               .write(key: 'access_token', value: user.value.accessToken);
           emailController.clear();
@@ -65,7 +67,7 @@ class UserController extends GetxService {
       } catch (error) {
         if (error is DioError) {
           // print(error.response.toString());
-          Get.snackbar('Error', error.response.toString());
+          Get.snackbar('Error', error.response!.data["message"].toString());
         }
       }
     }
@@ -145,7 +147,7 @@ class UserController extends GetxService {
     api.DioClient.get('/users/me').then((data) {
       user.value.user = User.fromJson(data.data);
     }).catchError((error) {
-      print((error.toString()));
+      print((error.response.toString()));
       user.value.user = null;
     });
   }

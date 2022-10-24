@@ -16,20 +16,18 @@ class HomePageStore extends StatelessWidget {
   PromotionsController promotionsController = Get.put(PromotionsController());
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Column(
       children: [
-        const SizedBox(
-          height: 25,
-        ),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.fromLTRB(14, 50, 14, 0),
           child:
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text(
               AppLocalizations.of(context)!.home,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.black,
-                fontSize: 36,
+                fontSize: 26,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -48,7 +46,7 @@ class HomePageStore extends StatelessWidget {
           ]),
         ),
         const SizedBox(
-          height: 30,
+          height: 15,
         ),
         Expanded(child: const MyTabBar()),
       ],

@@ -23,6 +23,8 @@ class CustomersList extends StatelessWidget {
               customersController.getCustomers();
             },
             child: ListView.builder(
+              physics: const AlwaysScrollableScrollPhysics(),
+              controller: customersController.scrollController,
               itemCount: customersController.customerList.length,
               itemBuilder: (context, index) {
                 return CustomerItemList(

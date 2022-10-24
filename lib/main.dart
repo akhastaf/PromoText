@@ -63,7 +63,10 @@ class _MyAppState extends State<MyApp> {
       locale: _locale,
       title: 'Promo app',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: const Color(0xFF394BBA),//6C63FF 1746A2
+        // primaryColor: const Color(0xFFC47AFF),//6C63FF
+        scaffoldBackgroundColor: const Color(0XFFF7F7F7),
+        textTheme: Theme.of(context).textTheme.apply(bodyColor: const Color(0XFF182747))
       ),
       initialRoute: '/',
       getPages: [
@@ -73,6 +76,7 @@ class _MyAppState extends State<MyApp> {
         GetPage(name: '/edit', page: () => EditProfile()),
         GetPage(name: '/editPassword', page: () => const EditPassword()),
         GetPage(name: '/', page: () => const MainPage()),
+        GetPage(name: '/onboard', page: () => const OnboardScreen()),
         GetPage(name: '/promotionCreate', page: () => const PromotionCreate()),
       ],
     );

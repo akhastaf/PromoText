@@ -35,5 +35,9 @@
     "home": "Home",
     "promotion_btn": "Create promotion",
     "tab_promotions": "Promotions",
-    "tab_customers": "Customers"
+    "tab_customers": "Customers",
+    "intro_one_title": "Manage your promotions easy",
+    "intro_two_title": "Manage your promotions easy",
+    "intro_three_title": "Manage your promotions easy",
+    "get_qr_code": "Get your Qr code"
 }   

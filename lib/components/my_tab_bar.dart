@@ -24,25 +24,23 @@ class _MyTabBarState extends State<MyTabBar> with TickerProviderStateMixin {
             alignment: Alignment.centerLeft,
             child: TabBar(
               unselectedLabelColor: Colors.grey,
-              labelColor: Colors.black,
+              labelColor: Color(0XFF6C63FF),
               controller: _tabController,
               isScrollable: true,
               labelPadding:
                   const EdgeInsets.only(right: 20, left: 0, bottom: 10),
-              indicator: CircleTabIndicator(color: Colors.black, radius: 4),
+              indicator:
+                  CircleTabIndicator(color: Color(0XFF6C63FF), radius: 4),
               labelStyle: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),
               tabs: [
                 Text(AppLocalizations.of(context)!.tab_promotions),
-                Text(AppLocalizations.of(context)!.tab_promotions),
+                Text(AppLocalizations.of(context)!.tab_customers),
               ],
             ),
           ),
-        ),
-        const SizedBox(
-          height: 20,
         ),
         Expanded(
           child: TabBarView(

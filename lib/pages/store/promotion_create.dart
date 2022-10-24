@@ -27,6 +27,15 @@ class _PromotionCreateState extends State<PromotionCreate> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
+        title: Align(
+          alignment: Alignment.center,
+          child: Text(
+            AppLocalizations.of(context)!.promotion_btn,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+                color: Colors.black, fontWeight: FontWeight.w600),
+          ),
+        ),
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
@@ -43,7 +52,7 @@ class _PromotionCreateState extends State<PromotionCreate> {
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               AppTextFiled(
                 controller: promotionController.titleController,

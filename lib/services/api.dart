@@ -28,7 +28,7 @@ class Api extends GetxService {
 
   Future<Api> init() async {
     // Init Dio
-    _dio = Dio(BaseOptions(baseUrl: 'https://114b-185-216-201-4.ngrok.io/api'));
+    _dio = Dio(BaseOptions(baseUrl: 'http://txthem.com/api'));
     // Setup cookies
     String appDoc = await getDocPath();
     _cookieJar = PersistCookieJar(storage: FileStorage('$appDoc/.cookiess'));
@@ -69,7 +69,6 @@ class Api extends GetxService {
         _accessToken = response.data['access_token'];
         await secure.storage.write(key: 'access_token', value: _accessToken);
       } else {
-        // await _secure.storage.delete(key: 'refresh_token');
         _reload = false;
         await _cookieJar.deleteAll();
       }

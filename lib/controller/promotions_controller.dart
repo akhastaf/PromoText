@@ -26,6 +26,7 @@ class PromotionsController extends GetxController {
   void onInit() async {
     getPromotions();
     scrollController.addListener(() {
+      print('here');
       if (scrollController.position.maxScrollExtent ==
               scrollController.offset &&
           !noMoreToLoad.value) _loadMore();
@@ -66,6 +67,7 @@ class PromotionsController extends GetxController {
         promotionList.value = List<Promotion>.from(
             res.data["items"].map((x) => Promotion.fromJson(x)));
         meta = Meta.fromJson(res.data["meta"]);
+        Get.snackbar('debug', meta.itemCount.toString());
       }
       isLoading.value = false;
     } catch (error) {
@@ -85,8 +87,8 @@ class PromotionsController extends GetxController {
               res.data["items"].map((x) => Promotion.fromJson(x)));
           // print(newPromotions.items.toString());
           promotionList.addAll(newPromotions);
-
           meta = Meta.fromJson(res.data["meta"]);
+          Get.snackbar('debug', meta.itemCount.toString());
         }
         isLoading.value = false;
       } catch (error) {

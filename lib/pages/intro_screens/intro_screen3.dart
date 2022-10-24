@@ -1,13 +1,39 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_svg/svg.dart';
 
 class IntroScreen3 extends StatelessWidget {
+  const IntroScreen3({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.deepOrange.shade700,
+      padding: const EdgeInsets.all(30),
+      color: const Color(0XFFB170DC),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Text(
+            'Manage your promotions easy',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Colors.white, fontWeight: FontWeight.w700, fontSize: 32),
+          ),
+          const SizedBox(
+            height: 50,
+          ),
+          SvgPicture.asset(
+            'assets/images/intro_three.svg',
+            width: 180,
+            height: 180,
+          ),
+          const SizedBox(
+            height: 100,
+          ),
+        ],
+      ),
     );
   }
 }

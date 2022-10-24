@@ -32,7 +32,9 @@ class _PromotionsListState extends State<PromotionsList> {
             }),
             child: ListView.builder(
               controller: promotionsController.scrollController,
+              physics: const AlwaysScrollableScrollPhysics(),
               itemCount: promotionsController.promotionList.length,
+              shrinkWrap: false,
               itemBuilder: (context, index) {
                 return PromotionItemList(
                     promotion: promotionsController.promotionList[index]);
@@ -41,6 +43,7 @@ class _PromotionsListState extends State<PromotionsList> {
           ),
         ),
       ),
+      // Obx((() => )
     ]);
   }
 }
