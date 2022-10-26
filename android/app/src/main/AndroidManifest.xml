@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.promo_app.promo_app">
    <application
-        android:label="promo_app"
+        android:label="Txthem"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -7,7 +7,6 @@ import 'package:promo_app/components/app_text_filed.dart';
 import 'package:promo_app/controller/user_controller.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-
 class ResetPage extends StatefulWidget {
   const ResetPage({super.key});
 
@@ -22,15 +21,21 @@ class _ResetPageState extends State<ResetPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Theme.of(context).primaryColor,
           elevation: 0,
+          centerTitle: true,
+          title: Text(
+            AppLocalizations.of(context)!.reset_btn,
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.white),
+          ),
           leading: IconButton(
               onPressed: (() {
                 Get.back();
               }),
               icon: const Icon(
                 Icons.arrow_back,
-                color: Colors.grey,
+                color: Colors.white,
               ))),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
@@ -38,7 +43,7 @@ class _ResetPageState extends State<ResetPage> {
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Obx(() => Text(userController.err.value)),
               Text(
@@ -70,7 +75,7 @@ class _ResetPageState extends State<ResetPage> {
               ),
               AppButton(
                 textColor: Colors.white,
-                backgroundColor: Color(0xFF6C63FF),
+                backgroundColor: Theme.of(context).primaryColor,
                 text: AppLocalizations.of(context)!.reset_btn,
                 textSize: 16,
                 width: 190,

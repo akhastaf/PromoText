@@ -46,6 +46,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  // RxBool _isLightTheme = false.obs;
   Locale? _locale;
   setLocale(Locale locale) {
     setState(() {
@@ -63,11 +64,12 @@ class _MyAppState extends State<MyApp> {
       locale: _locale,
       title: 'Promo app',
       theme: ThemeData(
-        primaryColor: const Color(0xFF394BBA),//6C63FF 1746A2
-        // primaryColor: const Color(0xFFC47AFF),//6C63FF
-        scaffoldBackgroundColor: const Color(0XFFF7F7F7),
-        textTheme: Theme.of(context).textTheme.apply(bodyColor: const Color(0XFF182747))
-      ),
+          primaryColor: const Color(0xFF394BBA), //6C63FF 1746A2
+          // primaryColor: const Color(0xFFC47AFF),//6C63FF
+          scaffoldBackgroundColor: const Color(0XFFF7F7F7),
+          textTheme: Theme.of(context)
+              .textTheme
+              .apply(bodyColor: const Color(0XFF182747))),
       initialRoute: '/',
       getPages: [
         GetPage(name: '/mainStore', page: () => const MainPageStore()),

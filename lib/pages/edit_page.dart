@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:promo_app/components/app_button.dart';
 import 'package:promo_app/components/app_text_filed.dart';
 import 'package:promo_app/controller/user_controller.dart';
@@ -26,6 +30,7 @@ class _EditProfileState extends State<EditProfile> {
     Language(code: 'en', value: 'English'),
     Language(code: 'fr', value: 'French')
   ];
+
   @override
   void initState() {
     // TODO: implement initState
@@ -37,17 +42,18 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(
           AppLocalizations.of(context)!.edit_title,
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
           textAlign: TextAlign.center,
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).primaryColor,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
-            color: Colors.grey,
+            color: Colors.white,
           ),
           onPressed: () {
             Get.back();
@@ -63,6 +69,104 @@ class _EditProfileState extends State<EditProfile> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                Stack(
+                  children: [
+                    Obx (() => CircleAvatar(
+                      radius: 60,
+                      backgroundImage:
+                          userController.image.value.file == null ? 
+                          NetworkImage(userController.user.value.user!.avatar)  as ImageProvider
+                          : FileImage(userController.image.value.file!),
+
+                      // NetworkImage(userController.user.value.user!.avatar),
+                    ),),
+                    Positioned(
+                      bottom: -6,
+                      right: -4,
+                      child: IconButton(
+                        icon: Container(
+                          // padding: EdgeInsets.all(),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                  color: Theme.of(context).primaryColor)),
+                          child: Icon(
+                            Icons.camera_alt_rounded,
+                            // size: 28,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text(
+                                    AppLocalizations.of(context)!.alert_title,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: Theme.of(context).primaryColor),
+                                  ),
+                                  content: SingleChildScrollView(
+                                    child: ListBody(children: [
+                                      InkWell(
+                                        onTap: (() {
+                                          userController.pickImage(ImageSource.camera);
+                                        }),
+                                        splashColor:
+                                            Theme.of(context).primaryColor,
+                                        child: Row(children: [
+                                          Padding(
+                                              padding: EdgeInsets.all(8),
+                                              child: Icon(
+                                                Icons.camera,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                              )),
+                                          Text(
+                                            AppLocalizations.of(context)!
+                                                .camera,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 18,
+                                                color: Colors.black),
+                                          )
+                                        ]),
+                                      ),
+                                      InkWell(
+                                        onTap: (() {
+                                          userController.pickImage(ImageSource.gallery);
+                                        }),
+                                        splashColor:
+                                            Theme.of(context).primaryColor,
+                                        child: Row(children: [
+                                          Padding(
+                                              padding: EdgeInsets.all(8),
+                                              child: Icon(
+                                                Icons.image,
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                              )),
+                                          Text(
+                                            AppLocalizations.of(context)!
+                                                .gallery,
+                                            style: const TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 18,
+                                                color: Colors.black),
+                                          )
+                                        ]),
+                                      )
+                                    ]),
+                                  ),
+                                );
+                              });
+                        },
+                      ),
+                    )
+                  ],
+                ),
                 const SizedBox(
                   height: 40,
                 ),
@@ -125,19 +229,15 @@ class _EditProfileState extends State<EditProfile> {
                             ))
                         .toList(),
                     onChanged: (value) {
-                      MyApp.setLocale(
-                          context,
-                          Locale(
-                              value ?? 'en',
-                              ''));
+                      MyApp.setLocale(context, Locale(value ?? 'en', ''));
                       setState(() {
                         userController.languageController.text =
                             value.toString();
                       });
                     },
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.arrow_drop_down_circle,
-                      color: Color(0xFF6C63FF),
+                      color: Theme.of(context).primaryColor,
                     ),
                     decoration: InputDecoration(
                       labelText: AppLocalizations.of(context)!.langauge,
@@ -151,7 +251,7 @@ class _EditProfileState extends State<EditProfile> {
                 ),
                 AppButton(
                   textColor: Colors.white,
-                  backgroundColor: Color(0xFF6C63FF),
+                  backgroundColor: Theme.of(context).primaryColor,
                   text: AppLocalizations.of(context)!.edit_btn,
                   textSize: 16,
                   textWeight: FontWeight.w600,

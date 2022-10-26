@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class IntroScreen1 extends StatelessWidget {
   const IntroScreen1({super.key});
@@ -15,8 +16,8 @@ class IntroScreen1 extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Text(
-            'Manage your promotions easy',
+          Text(
+            AppLocalizations.of(context)!.intro_one_title,
             textAlign: TextAlign.center,
             style: TextStyle(
                 color: Colors.white, fontWeight: FontWeight.w700, fontSize: 32),

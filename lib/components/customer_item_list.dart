@@ -12,58 +12,37 @@ class CustomerItemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      // leading: SizedBox(
-      //   width: 70,
-      //   height: 70,
-      //   child: CircleAvatar(
-      //     child: Image.network(
-      //       customer.avatar,
-      //       fit: BoxFit.cover,
-      //       height: 80,
-      //       width: 80,
-      //       errorBuilder: (context, error, stackTrace) {
-      //         return Container(
-      //           color: Colors.amber,
-      //           width: 80,
-      //           height: 80,
-      //           alignment: Alignment.center,
-      //           child: const Text(
-      //             'Whoops!',
-      //             style: TextStyle(fontSize: 30),
-      //           ),
-      //         );
-      //       },
-      //     ),
-      //   ),
-      // ),
-      title: Text(
-        customer.fullName ?? '',
-        style: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
-          color: Colors.black,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      child: Card(
+        margin: const EdgeInsets.symmetric(vertical: 6),
+        child: ListTile(
+          title: Text(
+            customer.fullName ?? '',
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+            ),
+          ),
+          subtitle: Text(
+            customer.phone ?? '',
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+              color: Colors.grey,
+              fontSize: 12,
+            ),
+          ),
+          trailing: Text(
+            timeago.format(customer.createdAt ?? DateTime.now()),
+            style: const TextStyle(
+              fontWeight: FontWeight.w400,
+              color: Colors.grey,
+              fontSize: 12,
+            ),
+          ),
         ),
       ),
-      subtitle: Text(
-        customer.phone ?? '',
-        style: const TextStyle(
-          fontWeight: FontWeight.w600,
-          color: Colors.grey,
-          fontSize: 12,
-        ),
-      ),
-      trailing: Text(
-        timeago.format(customer.createdAt ?? DateTime.now()),
-        style: const TextStyle(
-          fontWeight: FontWeight.w400,
-          color: Colors.grey,
-          fontSize: 12,
-        ),
-      ),
-      // onTap: () {
-      //   print('tile taped ${customer.fullName}');
-      // },
     );
   }
 }

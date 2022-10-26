@@ -1,12 +1,21 @@
+import 'dart:io';
+
 import 'package:date_format/date_format.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_instance/get_instance.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get_rx/get_rx.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:promo_app/main.dart';
+import 'package:promo_app/models/avatar_model.dart';
 import 'package:promo_app/pages/login_page.dart';
 import 'package:promo_app/services/storage.dart';
-
+import 'package:dio/src/form_data.dart';
 import '../models/login_model.dart';
 import '../models/user.model.dart';
 import '../services/api.dart';
@@ -16,6 +25,7 @@ class UserController extends GetxService {
   StorageSecure storageSecure = Get.find<StorageSecure>();
   Rx<Login> user = Login().obs;
   Rx<String> err = ''.obs;
+  Rx<Avatar> image = Avatar().obs;
   final nameController = TextEditingController();
   final emailController = TextEditingController();
   final phoneController = TextEditingController();
@@ -31,12 +41,11 @@ class UserController extends GetxService {
       final res = await api.DioClient.get('/users/me');
       if (res.statusCode == 200) {
         user.value.user = User.fromJson(res.data);
-        if (user.value.user!.isActive) user.value.user = null;
+        if (!(user.value.user!.isActive)) user.value.user = null;
       } else {
         user.value.user = null;
       }
     } catch (error) {
-      print(error.toString());
       user.value.user = null;
     }
     return this;
@@ -48,78 +57,55 @@ class UserController extends GetxService {
         "username": emailController.text,
         "password": passwordController.text
       };
-      debugPrint(data.toString());
-      try {
-        final res = await api.DioClient.post('/auth/login', data: data);
-        // debugPrint(res.toString());
-        if (res.statusCode == 201) {
-          user.value = Login.fromJson(res.data);
-          debugPrint(user.value.user.toString());
-          await storageSecure.storage
-              .write(key: 'access_token', value: user.value.accessToken);
-          emailController.clear();
-          passwordController.clear();
-          // await storageSecure.storage
-          //     .write(key: 'user', value: userToJson(user.value.user!));
-          // print(user.value.user?.role);
-          Get.offAllNamed('/');
-        }
-      } catch (error) {
-        if (error is DioError) {
-          // print(error.response.toString());
-          Get.snackbar('Error', error.response!.data["message"].toString());
-        }
-      }
+      api.DioClient.post('/auth/login', data: data).then((data) async {
+        user.value = Login.fromJson(data.data);
+        await storageSecure.storage
+            .write(key: 'access_token', value: user.value.accessToken);
+        emailController.clear();
+        passwordController.clear();
+        Get.offAllNamed('/');
+      }).catchError((error) {
+        Get.snackbar('Error', error.response!.data["message"].toString());
+      });
     }
   }
 
   void logout() async {
-    try {
-      final res = await api.DioClient.delete('/auth/logout');
-      if (res.statusCode == 200) {
-        // await storageSecure.storage.delete(key: 'refresh_token');
-        await storageSecure.storage.delete(key: 'access_token');
-        // await storageSecure.storage.delete(key: 'user');
-        await api.Cookies.deleteAll();
-        Get.offAllNamed('/login');
-      }
-    } catch (error) {
-      //Get.snackbar('Error', error.toString());
-    }
+    api.DioClient.delete('/auth/logout').then((value) async {
+      await storageSecure.storage.delete(key: 'access_token');
+      await api.Cookies.deleteAll();
+      Get.offAllNamed('/login');
+    }).catchError((error) {
+      Get.snackbar('Error', error.response!.data["message"].toString());
+    });
   }
 
   void reset(GlobalKey<FormState> formKey) async {
     if (formKey.currentState!.validate()) {
-      try {
-        final data = {
-          "email": resetController.text,
-        };
-        final res = await api.DioClient.post('/auth/forget', data: data);
-        if (res.statusCode == 201) {
-          err.value = res.data.toString();
-          Get.back();
-        } else if (res.statusCode == 400) {
-          Get.snackbar('Error', res.statusMessage.toString());
-        }
-      } catch (error) {
-        // err.value = error.toString();
-        // Get.snackbar('error', error.toString());
-      }
+      final data = {
+        "email": resetController.text,
+      };
+      api.DioClient.post('/auth/forget', data: data).then((value) {
+        Get.back();
+      }).catchError((error) {
+        Get.snackbar('error', error.response!.data["message"].toString());
+      });
     }
   }
 
   void edit(GlobalKey<FormState> formKey) async {
     if (formKey.currentState!.validate()) {
-      final data = {
+      final data = FormData.fromMap({
         "name": nameController.text,
         "address": addressController.text,
         "language": languageController.text,
         "phone": phoneController.text,
-      };
+        'avatar':image.value.file == null ? null : await MultipartFile.fromFile(image.value.file!.path),
+      });
       api.DioClient.patch('/users/me', data: data).then((value) {
         Get.toNamed('/');
       }).catchError((error) {
-        print(error);
+        Get.snackbar('error', error.response.data["message"].toString());
       });
     }
   }
@@ -138,17 +124,44 @@ class UserController extends GetxService {
         passwordconfirmationController.clear();
         Get.toNamed('/');
       }).catchError((error) {
-        print(error);
+        Get.snackbar('error', error.response.data["message"].toString());
       });
     }
   }
 
-  void refreshUser() async {
-    api.DioClient.get('/users/me').then((data) {
-      user.value.user = User.fromJson(data.data);
-    }).catchError((error) {
-      print((error.response.toString()));
+  getQrcode() async {
+    final res = await api.DioClient.get('/users/qr',
+        options: Options(
+            responseType: ResponseType.bytes,
+            followRedirects: false,
+            receiveTimeout: 0));
+    return res;
+  }
+
+  Future pickImage(ImageSource source) async {
+    try {
+      final img = await ImagePicker().pickImage(source: source);
+      if (img != null) {
+        final image_tmp = File(img.path);
+        image.value.file = image_tmp;
+      }
+    } on PlatformException catch (error) {
+      Get.snackbar('error', 'unable to load the image');
+    }
+  }
+
+  refreshUser() async {
+    try {
+      final res = await api.DioClient.get('/users/me');
+      if (res.statusCode == 200) {
+        user.value.user = User.fromJson(res.data);
+        if (!(user.value.user!.isActive)) logout();
+      } else {
+        user.value.user = null;
+      }
+    } catch (error) {
       user.value.user = null;
-    });
+    }
+    
   }
 }

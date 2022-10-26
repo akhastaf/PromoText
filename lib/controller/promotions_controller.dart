@@ -26,7 +26,6 @@ class PromotionsController extends GetxController {
   void onInit() async {
     getPromotions();
     scrollController.addListener(() {
-      print('here');
       if (scrollController.position.maxScrollExtent ==
               scrollController.offset &&
           !noMoreToLoad.value) _loadMore();
@@ -41,59 +40,51 @@ class PromotionsController extends GetxController {
       "description": descriptionController.text
     };
     api.DioClient.post('/promotions', data: data).then((value) {
-      print('success ${value.toString()}');
       titleController.clear();
       descriptionController.clear();
       getPromotions();
       Get.back();
-    }).catchError((error) => print('error  ${error.toString()}'));
+    }).catchError((error) {
+      Get.snackbar('error', error.response.data["message"].toString());
+    });
   }
 
   void delete(int id) {
     api.DioClient.delete('/promotions/$id').then((value) {
-      print('success ${value.toString()}');
       getPromotions();
-    }).catchError((error) => print('error  ${error.toString()}'));
+    }).catchError((error) {
+      error.response.data["message"].toString();
+    });
   }
 
   void getPromotions() async {
-    try {
-      isLoading.value = true;
-      page.value = 1;
-      noMoreToLoad.value = false;
-      final res = await api.DioClient.get('/promotions?page=${page.value}');
-      if (res.statusCode == 200) {
-        print(res.data);
-        promotionList.value = List<Promotion>.from(
-            res.data["items"].map((x) => Promotion.fromJson(x)));
-        meta = Meta.fromJson(res.data["meta"]);
-        Get.snackbar('debug', meta.itemCount.toString());
-      }
+    isLoading.value = true;
+    page.value = 1;
+    noMoreToLoad.value = false;
+    api.DioClient.get('/promotions?page=${page.value}').then((data) {
+      promotionList.value = List<Promotion>.from(
+          data.data["items"].map((x) => Promotion.fromJson(x)));
+      meta = Meta.fromJson(data.data["meta"]);
       isLoading.value = false;
-    } catch (error) {
-      Get.snackbar('error', error.toString());
-    }
+    }).catchError((error) {
+      Get.snackbar('error', error.response.data["message"].toString());
+    });
   }
 
   void _loadMore() async {
     if (!noMoreToLoad.value && meta.totalPages > page.value) {
       page.value++;
-      try {
-        isLoading.value = true;
-        final res = await api.DioClient.get('/promotions?page=${page.value}');
-        if (res.statusCode == 200) {
-          // print(res.data);
-          final newPromotions = List<Promotion>.from(
-              res.data["items"].map((x) => Promotion.fromJson(x)));
-          // print(newPromotions.items.toString());
-          promotionList.addAll(newPromotions);
-          meta = Meta.fromJson(res.data["meta"]);
-          Get.snackbar('debug', meta.itemCount.toString());
-        }
+      isLoading.value = true;
+      final res = await api.DioClient.get('/promotions?page=${page.value}')
+          .then((data) {
+        final newPromotions = List<Promotion>.from(
+            data.data["items"].map((x) => Promotion.fromJson(x)));
+        promotionList.addAll(newPromotions);
+        meta = Meta.fromJson(data.data["meta"]);
         isLoading.value = false;
-      } catch (error) {
+      }).catchError((error) {
         Get.snackbar('error', error.toString());
-      }
+      });
     } else {
       noMoreToLoad.value = true;
     }

@@ -35,12 +35,14 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Padding(
+      body: Container(
+        margin: EdgeInsets.only(top: size.height / 6),
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Image.asset(
                 'assets/images/logo.png',
@@ -87,7 +89,8 @@ class _LoginPageState extends State<LoginPage> {
                       controller: userController.passwordController,
                       validation: (p0) {
                         if (p0 == null || p0.isEmpty) {
-                          return AppLocalizations.of(context)!.password_validation;
+                          return AppLocalizations.of(context)!
+                              .password_validation;
                         }
                         return null;
                       },
@@ -116,7 +119,8 @@ class _LoginPageState extends State<LoginPage> {
                         },
                         child: Text(
                           AppLocalizations.of(context)!.forget_link,
-                          style: TextStyle(color: Color(0xFF6C63FF)),
+                          style:
+                              TextStyle(color: Theme.of(context).primaryColor),
                         ),
                       ),
                     ),
@@ -127,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                       width: 130,
                       height: 40,
                       textColor: Colors.white,
-                      backgroundColor: Color(0xFF6C63FF),
+                      backgroundColor: Theme.of(context).primaryColor,
                       text: AppLocalizations.of(context)!.login,
                       textSize: 16,
                       textWeight: FontWeight.w600,
@@ -141,29 +145,6 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(
                       height: 10,
                     ),
-                    // Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    //   Text(
-                    //     'Don\'t have an account ? ',
-                    //     style: TextStyle(
-                    //       fontWeight: FontWeight.w300,
-                    //       color: Colors.grey.shade500,
-                    //       fontSize: 14,
-                    //     ),
-                    //   ),
-                    //   InkWell(
-                    //     onTap: () {
-                    //       Get.toNamed('/signup');
-                    //     },
-                    //     // userController.printToken,
-                    //     child: const Text(
-                    //       'Create an account',
-                    //       style: TextStyle(
-                    //         color: Color(0xFF6C63FF),
-                    //         fontWeight: FontWeight.w600,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ]),
                   ],
                 ),
               ),

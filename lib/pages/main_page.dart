@@ -21,7 +21,6 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   final storage = Get.find<StorageSecure>();
   UserController userController = Get.find<UserController>();
-  bool introShow = false;
   @override
   void initState() {
     refreshUser();
@@ -30,15 +29,24 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (introShow) return const OnboardScreen();
-    if (userController.user.value.user?.role == 'STORE') {
-      // MyApp.setLocale(context, newLocale)
-      return const MainPageStore();
-    }
-    return const LoginPage();
+    return Scaffold();
+    // if (userController.user.value.user?.role == 'STORE') {
+    //   return const MainPageStore();
+    // }
+    // return const LoginPage();
   }
 
   void refreshUser() async {
-    userController.refreshUser();
+    await userController.refreshUser();
+    final a = await storage.storage.read(key: 'intro');
+    if (a == null) {
+      Get.offAllNamed('/onboard');
+      return;
+    }
+    if (userController.user.value.user?.role == 'STORE') {
+      Get.offAllNamed('/mainStore');
+    } else {
+      Get.offAllNamed('/login');
+    }
   }
 }

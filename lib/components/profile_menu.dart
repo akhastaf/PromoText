@@ -16,7 +16,7 @@ class ProfileMenu extends StatelessWidget {
       child: TextButton(
           onPressed: press,
           style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(Colors.grey.shade100),
+              backgroundColor: MaterialStateProperty.all(Colors.white),
               padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
               shape: MaterialStateProperty.all(RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15)))),
@@ -24,7 +24,7 @@ class ProfileMenu extends StatelessWidget {
             children: [
               Icon(
                 icon,
-                color: Color(0xFF6C63FF),
+                color: Theme.of(context).primaryColor,
               ),
               const SizedBox(
                 width: 20,

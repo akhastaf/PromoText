@@ -28,7 +28,7 @@ class Api extends GetxService {
 
   Future<Api> init() async {
     // Init Dio
-    _dio = Dio(BaseOptions(baseUrl: 'http://txthem.com/api'));
+    _dio = Dio(BaseOptions(baseUrl: 'https://txthem.com/api'));
     // Setup cookies
     String appDoc = await getDocPath();
     _cookieJar = PersistCookieJar(storage: FileStorage('$appDoc/.cookiess'));
@@ -74,7 +74,7 @@ class Api extends GetxService {
       }
     } catch (error) {
       _reload = false;
-      print(error.toString());
+      await _cookieJar.deleteAll();
     }
   }
 

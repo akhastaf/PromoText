@@ -9,6 +9,7 @@ import 'package:promo_app/pages/intro_screens/intro_screen2.dart';
 import 'package:promo_app/pages/intro_screens/intro_screen3.dart';
 import 'package:promo_app/services/storage.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnboardScreen extends StatefulWidget {
   const OnboardScreen({super.key});
@@ -25,12 +26,7 @@ class _OnboardScreenState extends State<OnboardScreen>
   bool introShow = false;
 
   Future<void> checkFirstSeen() async {
-    introShow = (await storageSecure.storage.read(key: 'intro')) == 'true';
-    if (introShow) {
-      Get.offAllNamed('/');
-    } else {
-      await storageSecure.storage.write(key: 'intro', value: 'true');
-    }
+    await storageSecure.storage.write(key: 'intro', value: 'true');
   }
 
   @override
@@ -63,11 +59,11 @@ class _OnboardScreenState extends State<OnboardScreen>
               children: [
                 GestureDetector(
                   onTap: () {
-                    storageSecure.storage.delete(key: 'intro');
+                    // storageSecure.storage.delete(key: 'intro');
                     _controler.jumpToPage(2);
                   },
-                  child: const Text(
-                    'Skip',
+                  child: Text(
+                    AppLocalizations.of(context)!.skip,
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w400,
@@ -98,8 +94,8 @@ class _OnboardScreenState extends State<OnboardScreen>
                             shape: BoxShape.rectangle,
                             color: Colors.black,
                           ),
-                          child: const Text(
-                            'Done',
+                          child: Text(
+                            AppLocalizations.of(context)!.done,
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
@@ -122,8 +118,8 @@ class _OnboardScreenState extends State<OnboardScreen>
                             shape: BoxShape.rectangle,
                             color: Colors.black,
                           ),
-                          child: const Text(
-                            'Next',
+                          child: Text(
+                            AppLocalizations.of(context)!.next,
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,

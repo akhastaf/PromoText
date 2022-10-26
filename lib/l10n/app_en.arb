@@ -36,8 +36,19 @@
     "promotion_btn": "Create promotion",
     "tab_promotions": "Promotions",
     "tab_customers": "Customers",
-    "intro_one_title": "Manage your promotions easy",
-    "intro_two_title": "Manage your promotions easy",
-    "intro_three_title": "Manage your promotions easy",
-    "get_qr_code": "Get your Qr code"
+    "intro_one_title": "Manage your promotions easily",
+    "intro_two_title": "Keep your customers one click away",
+    "intro_three_title": "Grow your business with a few steps",
+    "get_qr_code": "Get your Qr code",
+    "no_customers": "No customers",
+    "no_promotions": "No promotions",
+    "no_promotions_title": "start add new promotions",
+    "alert_title": "Choose option",
+    "camera": "Camera",
+    "gallery": "Gallery",
+    "navigation_bottom_home": "Home",
+    "navigation_bottom_profile": "Profile",
+    "skip": "Skip",
+    "next": "Next",
+    "done": "Done"
 }   

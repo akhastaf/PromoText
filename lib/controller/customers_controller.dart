@@ -32,38 +32,36 @@ class CustomersController extends GetxController {
   }
 
   void getCustomers() async {
-    try {
-      final res = await api.DioClient.get('/customers?page=${page.value}');
-      if (res.statusCode == 200) {
-        customerList.value = List<Customer>.from(
-            res.data["items"].map((x) => Customer.fromJson(x)));
-        meta = Meta.fromJson(res.data["meta"]);
-      }
-    } catch (error) {
-      Get.snackbar('error', error.toString());
-    }
+    page.value = 1;
+    noMoreToLoad.value = false;
+    api.DioClient.get('/customers?page=${page.value}').then((data) {
+      customerList.value = List<Customer>.from(
+          data.data["items"].map((x) => Customer.fromJson(x)));
+      meta = Meta.fromJson(data.data["meta"]);
+    }).catchError((error) {
+      Get.snackbar('error', error.response.data["message"].toString());
+    });
   }
 
   void delete(int id) {
     api.DioClient.delete('/customers/$id').then((value) {
       getCustomers();
-    }).catchError((error) => print('error  ${error.toString()}'));
+    }).catchError((error) {
+      Get.snackbar('error', error.response.data["message"].toString());
+    });
   }
 
   void _loadMore() async {
     if (!noMoreToLoad.value && meta.totalPages > page.value) {
       page.value++;
-      try {
-        final res = await api.DioClient.get('/customers?page=${page.value}');
-        if (res.statusCode == 200) {
-          final newCustomers = List<Customer>.from(
-              res.data["items"].map((x) => Customer.fromJson(x)));
-          customerList.addAll(newCustomers);
-          meta = Meta.fromJson(res.data["meta"]);
-        }
-      } catch (error) {
-        Get.snackbar('error', error.toString());
-      }
+      api.DioClient.get('/customers?page=${page.value}').then((data) {
+        final newCustomers = List<Customer>.from(
+            data.data["items"].map((x) => Customer.fromJson(x)));
+        customerList.addAll(newCustomers);
+        meta = Meta.fromJson(data.data["meta"]);
+      }).catchError((error) {
+        Get.snackbar('error', error.response.data["message"].toString());
+      });
     } else {
       noMoreToLoad.value = true;
     }

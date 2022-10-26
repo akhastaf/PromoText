@@ -44,6 +44,7 @@ dependencies:
   cookie_jar: ^3.0.1
   dio_cookie_manager: ^2.0.0
   path_provider: ^2.0.11
+  # shared_preferences: ^2.0.15
   flutter_secure_storage: ^6.0.0
   timeago: ^3.3.0
   date_format: ^2.0.7
@@ -52,6 +53,8 @@ dependencies:
   flutter_svg: ^1.1.5
   after_layout: ^1.2.0
   url_launcher: ^6.1.6
+  open_file: ^3.2.1
+  
 
   # firebase_messaging: ^13.0.4
   # flutter_svg: ^1.1.5
@@ -59,6 +62,25 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.10.0
+  flutter_native_splash: ^2.2.12
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo.png"
+
+flutter_native_splash:
+  android: true
+  ios: true
+  web: false
+  # color: "#ffffff"
+  background_image: assets/images/splash.png
+  image: assets/images/logo.png
+  # branding: assets/branding-acceptance.png
+  # color_dark: "#121212"
+  # image_dark: assets/logo-acceptance.png
+  # branding_dark: assets/branding-acceptance.png
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

@@ -25,21 +25,19 @@ class _PromotionCreateState extends State<PromotionCreate> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).primaryColor,
         elevation: 0,
-        title: Align(
-          alignment: Alignment.center,
-          child: Text(
-            AppLocalizations.of(context)!.promotion_btn,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-                color: Colors.black, fontWeight: FontWeight.w600),
-          ),
+        centerTitle: true,
+        title: Text(
+          AppLocalizations.of(context)!.promotion_btn,
+          textAlign: TextAlign.center,
+          style:
+              const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
         ),
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
-            color: Colors.grey,
+            color: Colors.white,
           ),
           onPressed: () {
             Get.back();
@@ -86,7 +84,8 @@ class _PromotionCreateState extends State<PromotionCreate> {
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 AppButton(
                   textColor: Colors.white,
-                  backgroundColor: Color(0xFF6C63FF),
+                  backgroundColor:
+                      Theme.of(context).primaryColor, // Color(0xFF6C63FF),
                   text: AppLocalizations.of(context)!.create,
                   textSize: 16,
                   width: 120,
