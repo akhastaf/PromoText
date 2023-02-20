@@ -1,4 +1,4 @@
-# promo_app
+# PromoText
 
 A new Flutter project.
 
